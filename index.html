@@ -933,6 +933,86 @@ footer .brand{justify-content:center; margin-bottom:10px;}
   transform: translateX(-50%);
   font-size: 1rem;
 }
+
+/* ---------- Quiz Premium Enhancements ---------- */
+@keyframes streakPulse {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.streak-pill {
+  background: linear-gradient(135deg, #ff4e50, #f9d423) !important;
+  color: #031018 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 12px rgba(255, 78, 80, 0.4);
+  animation: streakPulse 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.quiz-complete-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  text-align: center;
+  max-width: 540px;
+  margin: 0 auto;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  animation: quizResultFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes quizResultFadeIn {
+  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.quiz-complete-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+@media (max-width: 480px) {
+  .quiz-complete-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+.quiz-complete-stat {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.quiz-complete-stat .lbl {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.quiz-complete-stat .val {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.quiz-complete-stat.highlight {
+  background: rgba(34, 211, 238, 0.04);
+  border-color: rgba(34, 211, 238, 0.15);
+}
+.quiz-complete-stat.highlight .val {
+  color: var(--cyan);
+}
+.quiz-complete-stat.streak-stat {
+  background: rgba(255, 78, 80, 0.04);
+  border-color: rgba(255, 78, 80, 0.15);
+}
+.quiz-complete-stat.streak-stat .val {
+  color: #ff4e50;
+}
 </style>
 </head>
 <body data-theme="dark">
@@ -1368,7 +1448,9 @@ const RESERVOIRS = [
   {id:'amaravathi', name:'Amaravathi Reservoir', dam:'Amaravathi Dam', state:'Tamil Nadu', river:'Amaravathi', category:'Amaravathi Dam', wiki:'Amaravathi Dam', fact:'Located near Udumalpet, it is known for irrigation, flood control, hydropower, and nearby mugger crocodile habitat.'}
 ];
 
-const RESERVOIR_IMAGES = {};
+const RESERVOIR_IMAGES = {
+  hemavathi: ['assets/images/hemavathi.png']
+};
 
 const QUIZ_QUESTIONS = [
   {q:'Which river forms the Stanley Reservoir?', options:['Kaveri','Krishna','Godavari','Periyar'], a:0, diff:'easy'},
@@ -1839,8 +1921,9 @@ function initHeroCanvas(){
 let quizState = {};
 function startQuiz(){
   const qs = shuffle([...QUIZ_QUESTIONS]).slice(0,10);
-  quizState = {qs, i:0, score:0, lives:3, timer:15, interval:null};
+  quizState = {qs, i:0, score:0, lives:3, timer:15, interval:null, startTime:Date.now(), currentStreak:0, maxStreak:0};
   document.getElementById('quizLives').textContent = quizState.lives;
+  removeStreakBadge();
   renderQuizQuestion();
 }
 function renderQuizQuestion(){
@@ -1851,13 +1934,38 @@ function renderQuizQuestion(){
   document.getElementById('quizScore').textContent = quizState.score;
   document.getElementById('quizTimer').textContent = quizState.timer;
   const body = document.getElementById('quizBody');
-  body.innerHTML = `
+  
+  const newHTML = `
     <div class="progress-bar-outer" style="margin-bottom:18px;"><div class="progress-bar-inner" id="quizProgress" style="width:${(quizState.i/quizState.qs.length*100)}%"></div></div>
     <div style="margin-bottom:6px;"><span class="tag ${q.diff}">${q.diff}</span> <span style="color:var(--muted); font-size:.82rem;">Question ${quizState.i+1} of ${quizState.qs.length}</span></div>
     <h3 style="font-size:1.25rem; margin:14px 0 20px;">${q.q}</h3>
     <div style="display:flex; flex-direction:column; gap:10px;" id="quizOptions">
       ${q.options.map((o,idx)=>`<button class="option-btn" onclick="answerQuiz(${idx})">${o}<span></span></button>`).join('')}
     </div>`;
+
+  const wrap = document.getElementById('quizQuestionWrap');
+  if (wrap) {
+    wrap.style.opacity = '0';
+    wrap.style.transform = 'translateY(-15px)';
+    setTimeout(() => {
+      wrap.innerHTML = newHTML;
+      wrap.style.transform = 'translateY(15px)';
+      void wrap.offsetHeight;
+      wrap.style.opacity = '1';
+      wrap.style.transform = 'translateY(0)';
+      startQuizTimer();
+    }, 130);
+  } else {
+    body.innerHTML = `<div id="quizQuestionWrap" style="transition: opacity 130ms ease, transform 130ms ease; opacity: 0; transform: translateY(15px);">${newHTML}</div>`;
+    const wrapEl = document.getElementById('quizQuestionWrap');
+    void wrapEl.offsetHeight;
+    wrapEl.style.opacity = '1';
+    wrapEl.style.transform = 'translateY(0)';
+    startQuizTimer();
+  }
+}
+function startQuizTimer(){
+  clearInterval(quizState.interval);
   quizState.interval = setInterval(()=>{
     quizState.timer -= 1;
     const t = document.getElementById('quizTimer'); if(t) t.textContent = quizState.timer;
@@ -1870,19 +1978,217 @@ function answerQuiz(idx){
   const buttons = document.querySelectorAll('#quizOptions .option-btn');
   buttons.forEach(b=>b.disabled=true);
   if(idx===q.a){
-    buttons[idx].classList.add('correct'); quizState.score++; addXP(10); addCoins(5); playSound('correct');
+    buttons[idx].classList.add('correct');
+    quizState.score++;
+    addXP(10);
+    addCoins(5);
+    playSound('correct');
+    
+    quizState.currentStreak++;
+    if (quizState.currentStreak > quizState.maxStreak) {
+      quizState.maxStreak = quizState.currentStreak;
+    }
+    showStreakBadge(quizState.currentStreak);
   }else{
     if(idx>=0) buttons[idx].classList.add('wrong');
     buttons[q.a].classList.add('correct');
     quizState.lives--; document.getElementById('quizLives').textContent = quizState.lives;
     playSound('wrong');
+    
+    quizState.currentStreak = 0;
+    removeStreakBadge();
   }
   setTimeout(()=>{ quizState.i++; renderQuizQuestion(); }, 900);
 }
 function endQuiz(){
+  clearInterval(quizState.interval);
+  removeStreakBadge();
   recordScore('quiz', quizState.score);
-  document.getElementById('quizBody').innerHTML = resultsHTML(quizState.score, quizState.qs.length, 'quiz');
+  
+  const total = quizState.qs.length;
+  const score = quizState.score;
+  const accuracy = Math.round((score / total) * 100);
+  const xpEarned = score * 10;
+  const coinsEarned = score * 5;
+  const timeTaken = Math.round((Date.now() - quizState.startTime) / 1000);
+  const maxStreak = quizState.maxStreak;
+
+  const body = document.getElementById('quizBody');
+  body.innerHTML = `
+    <div class="quiz-complete-card">
+      <div style="font-size:3rem; margin-bottom:12px;">🏆</div>
+      <h2 style="font-size:1.8rem; font-weight:800; background:linear-gradient(135deg,#fff,var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:6px;">Quiz Complete!</h2>
+      <p style="color:var(--muted); font-size:0.9rem; margin-bottom:20px;">You've completed the Reservoir Quiz!</p>
+      
+      <div class="quiz-complete-grid">
+        <div class="quiz-complete-stat highlight">
+          <span class="lbl">Score</span>
+          <span class="val">${score}/${total}</span>
+        </div>
+        <div class="quiz-complete-stat">
+          <span class="lbl">Accuracy</span>
+          <span class="val">${accuracy}%</span>
+        </div>
+        <div class="quiz-complete-stat highlight">
+          <span class="lbl">XP Earned</span>
+          <span class="val">+<span id="animateXP">0</span></span>
+        </div>
+        <div class="quiz-complete-stat">
+          <span class="lbl">Coins Earned</span>
+          <span class="val">🪙 +<span id="animateCoins">0</span></span>
+        </div>
+        <div class="quiz-complete-stat">
+          <span class="lbl">Time Taken</span>
+          <span class="val">${timeTaken}s</span>
+        </div>
+        <div class="quiz-complete-stat streak-stat">
+          <span class="lbl">Highest Streak</span>
+          <span class="val">🔥 ${maxStreak}</span>
+        </div>
+      </div>
+      
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:24px;">
+        <button class="btn btn-primary" onclick="startQuiz()">Play Again</button>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-ghost" style="flex:1;" onclick="navigate('games')">Back to Games</button>
+          <button class="btn btn-ghost" style="flex:1;" onclick="navigate('home')">Home</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  animateValue('animateXP', 0, xpEarned, 1000);
+  animateValue('animateCoins', 0, coinsEarned, 1000);
+  triggerConfetti();
 }
+
+function showStreakBadge(streak){
+  if (streak < 2) {
+    removeStreakBadge();
+    return;
+  }
+  let pill = document.getElementById('quizStreakPill');
+  if (!pill) {
+    const hud = document.querySelector('#page-game-quiz .hud');
+    if (hud) {
+      pill = document.createElement('div');
+      pill.id = 'quizStreakPill';
+      pill.className = 'pill streak-pill';
+      hud.appendChild(pill);
+    }
+  }
+  if (pill) {
+    pill.innerHTML = `🔥 Streak x${streak}`;
+    pill.style.display = 'block';
+    pill.style.animation = 'none';
+    void pill.offsetWidth;
+    pill.style.animation = 'streakPulse 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both';
+  }
+}
+function removeStreakBadge(){
+  const pill = document.getElementById('quizStreakPill');
+  if (pill) {
+    pill.style.display = 'none';
+  }
+}
+
+function triggerConfetti() {
+  const container = document.getElementById('quizBody');
+  if (!container) return;
+  const canvas = document.createElement('canvas');
+  canvas.style.position = 'absolute';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '100';
+  container.style.position = 'relative';
+  container.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = container.clientWidth;
+  let h = canvas.height = container.clientHeight;
+
+  const colors = ['#22d3ee', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899'];
+  const particles = Array.from({ length: 80 }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * -h - 20,
+    r: Math.random() * 6 + 4,
+    d: Math.random() * h,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    tilt: Math.random() * 10 - 5,
+    tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+    tiltAngle: 0,
+    vy: Math.random() * 2 + 2,
+    vx: Math.random() * 2 - 1
+  }));
+
+  let animationId;
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    let active = false;
+
+    particles.forEach(p => {
+      p.tiltAngle += p.tiltAngleIncremental;
+      p.y += p.vy;
+      p.x += p.vx;
+      p.tilt = Math.sin(p.tiltAngle - (p.r / 2)) * 10;
+
+      if (p.y < h + 20) {
+        active = true;
+      }
+
+      ctx.beginPath();
+      ctx.lineWidth = p.r;
+      ctx.strokeStyle = p.color;
+      ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+      ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+      ctx.stroke();
+    });
+
+    if (active) {
+      animationId = requestAnimationFrame(draw);
+    } else {
+      canvas.remove();
+    }
+  }
+
+  const ro = new ResizeObserver(() => {
+    if (canvas) {
+      w = canvas.width = container.clientWidth;
+      h = canvas.height = container.clientHeight;
+    }
+  });
+  ro.observe(container);
+
+  draw();
+  setTimeout(() => {
+    cancelAnimationFrame(animationId);
+    canvas.remove();
+    ro.disconnect();
+  }, 4000);
+}
+
+function animateValue(id, start, end, duration) {
+  const obj = document.getElementById(id);
+  if (!obj) return;
+  const startTime = performance.now();
+  
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const value = Math.floor(progress * (end - start) + start);
+    obj.textContent = value;
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      obj.textContent = end;
+    }
+  }
+  requestAnimationFrame(update);
+}
+
 function resultsHTML(score, total, gameId){
   return `<div class="results-hero">
     <div class="big">${score}/${total}</div>
@@ -2546,6 +2852,10 @@ function closeShopContentModal() {
 
 /* ============================= INIT ============================= */
 function init(){
+  if (state.coins === 995325 || state.coins === 1000000) {
+    state.coins = 50;
+    saveState();
+  }
   initLoader();
   initCursor();
   buildNav();
