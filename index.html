@@ -293,19 +293,6 @@ img{max-width:100%; display:block;}
 .wheel-wrap{display:flex; flex-direction:column; align-items:center; gap:22px;}
 #wheelCanvas{filter:drop-shadow(0 15px 30px rgba(0,0,0,.4));}
 
-.map-wrap{position:relative; border-radius:18px; overflow:hidden; background:linear-gradient(160deg,#0d1a2b,#0a2233); min-height:420px;}
-#googleMapContainer{width:100%; height:min(70vh,620px); min-height:420px; border-radius:18px; overflow:hidden; background:var(--surface2);}
-.map-wrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0; filter:saturate(.96) contrast(.96);}
-.map-fallback-note{font-size:.82rem; color:var(--muted); margin-bottom:12px; line-height:1.5;}
-.map-glass-popup{min-width:240px; max-width:280px;}
-.map-glass-popup strong{display:block; margin-bottom:4px;}
-.map-glass-popup .meta{color:var(--muted); font-size:.78rem; margin-bottom:8px;}
-.map-glass-popup .fact{font-size:.82rem; line-height:1.45;}
-.map-wrap::after{content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(11,18,32,.1),rgba(11,18,32,.22));}
-[data-theme="light"] .map-wrap{background:linear-gradient(160deg,#dbe9f6,#c7dff2);}
-.map-pin{position:absolute; z-index:4; width:18px; height:18px; border-radius:50%; background:var(--claude); border:3px solid #fff; transform:translate(-50%,-50%); cursor:pointer; box-shadow:0 0 0 0 rgba(217,119,87,.6); animation:pulse 2.2s infinite;}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,211,238,.5);} 70%{box-shadow:0 0 0 14px rgba(34,211,238,0);} 100%{box-shadow:0 0 0 0 rgba(34,211,238,0);}}
-.map-popup{position:absolute; z-index:20; width:260px; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow);}
 
 .jigsaw-board{display:grid; gap:3px; margin:0 auto; border-radius:14px; overflow:hidden; background:var(--surface2);}
 .jigsaw-tile{background-size:400% 400%; cursor:pointer; transition:outline .2s ease;}
@@ -664,6 +651,288 @@ footer .brand{justify-content:center; margin-bottom:10px;}
   .site-video-bg video{display:none;}
 }
 @keyframes bookStaggerIn{to{opacity:1; transform:translateY(0);}}
+
+/* ---------- Shop System Styles ---------- */
+.shop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 28px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.shop-title-area h2 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #fff, var(--cyan) 70%, var(--blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-theme="light"] .shop-title-area h2 {
+  background: linear-gradient(135deg, #0F172A, var(--cyan) 75%, var(--blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.shop-stats-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.shop-stat-box {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  min-width: 100px;
+}
+.shop-stat-box .lbl {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.shop-stat-box .val {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.shop-exchange-btn {
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  color: #031018;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(34,211,238,0.22);
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, filter 0.2s ease;
+}
+.shop-exchange-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(34,211,238,0.3);
+}
+.shop-exchange-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+.shop-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+  overflow-x: auto;
+}
+.shop-tab {
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+.shop-tab:hover {
+  color: var(--text);
+  background: var(--surface2);
+}
+.shop-tab.active {
+  color: #21110a;
+  background: linear-gradient(135deg, var(--claude2), var(--claude));
+}
+.shop-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.shop-card {
+  position: relative;
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.shop-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(34,211,238,0.3);
+  box-shadow: var(--shadow);
+}
+.shop-card-icon {
+  font-size: 2.2rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--surface2);
+}
+.shop-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.shop-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.shop-card-desc {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.shop-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.shop-price {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.shop-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  min-width: 90px;
+  text-align: center;
+}
+.shop-btn-buy {
+  background: var(--surface2);
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+.shop-btn-buy:hover {
+  background: var(--surface3);
+  border-color: var(--cyan);
+}
+.shop-btn-owned {
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid var(--success);
+  color: var(--success);
+  cursor: default;
+}
+.shop-btn-equip {
+  background: linear-gradient(135deg, var(--claude2), var(--claude));
+  color: #21110a;
+}
+.shop-btn-equip:hover {
+  filter: brightness(1.05);
+}
+.shop-btn-equipped {
+  background: var(--cyan);
+  color: #031018;
+  font-weight: 700;
+  cursor: default;
+}
+.shop-btn-unequip {
+  background: var(--surface2);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+.shop-btn-unequip:hover {
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.game-card.style-glass {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
+}
+.game-card.style-neon {
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.5) !important;
+  border-color: var(--cyan) !important;
+}
+.game-card.style-wooden {
+  background: linear-gradient(135deg, #3d2818, #1e140a) !important;
+  border-color: #5c3e21 !important;
+  color: #f3e5d8 !important;
+}
+.game-card.style-wooden p {
+  color: #d2b48c !important;
+}
+.game-card.style-aqua {
+  background: linear-gradient(135deg, #0f4c5c, #0a2f35) !important;
+  border-color: var(--cyan) !important;
+  box-shadow: 0 10px 25px rgba(15, 76, 92, 0.4) !important;
+}
+.game-card.style-dark {
+  background: #050811 !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  box-shadow: none !important;
+}
+.game-card.style-gold {
+  border-color: #d4af37 !important;
+  background: linear-gradient(135deg, #1e190a, #0b0a04) !important;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3) !important;
+}
+.game-card.style-gold h3 {
+  background: linear-gradient(135deg, #fff, #d4af37);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.profile-frame-bronze {
+  box-shadow: 0 0 0 2px #cd7f32 !important;
+}
+.profile-frame-silver {
+  box-shadow: 0 0 0 2px #c0c0c0 !important;
+}
+.profile-frame-gold {
+  box-shadow: 0 0 0 2px #d4af37 !important;
+}
+.profile-frame-diamond {
+  box-shadow: 0 0 0 2px var(--cyan), 0 0 10px rgba(34,211,238,0.5) !important;
+}
+.profile-frame-royal {
+  box-shadow: 0 0 0 2px var(--claude2), 0 0 12px rgba(242,184,138,0.6) !important;
+  position: relative;
+}
+.profile-frame-royal::after {
+  content: '👑';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+}
 </style>
 </head>
 <body data-theme="dark">
@@ -699,6 +968,7 @@ footer .brand{justify-content:center; margin-bottom:10px;}
       <nav class="nav-links" id="navLinks"></nav>
       <div style="display:flex; align-items:center; gap:10px;">
         <div class="stat-pills">
+          <div class="pill" id="profilePill" style="transition: all 0.3s ease; position: relative;">👤 Player</div>
           <div class="pill">⚡ <span id="pillXP">0</span></div>
           <div class="pill">🪙 <span id="pillCoins">0</span></div>
         </div>
@@ -727,7 +997,7 @@ footer .brand{justify-content:center; margin-bottom:10px;}
           </div>
           <div class="hero-stats">
             <div class="hero-stat"><div class="n">16</div><div class="l">Reservoirs</div></div>
-            <div class="hero-stat"><div class="n">7</div><div class="l">Games</div></div>
+            <div class="hero-stat"><div class="n">6</div><div class="l">Games</div></div>
             <div class="hero-stat"><div class="n" id="statGamesPlayed">0</div><div class="l">Played by you</div></div>
           </div>
         </div>
@@ -752,10 +1022,6 @@ footer .brand{justify-content:center; margin-bottom:10px;}
       <div class="section">
         <div class="section-head"><div><h2>🧩 Puzzle Games</h2></div></div>
         <div class="grid" id="gridPuzzle"></div>
-      </div>
-      <div class="section">
-        <div class="section-head"><div><h2>🗺 Map Games</h2></div></div>
-        <div class="grid" id="gridMap"></div>
       </div>
       <div class="section">
         <div class="section-head"><div><h2>⚡ Challenge Games</h2></div></div>
@@ -820,6 +1086,51 @@ footer .brand{justify-content:center; margin-bottom:10px;}
         </div>
       </div>
     </section>
+
+    <!-- SHOP -->
+    <section class="page" id="page-shop">
+      <div class="section" style="padding-top:28px;">
+        <div class="shop-header">
+          <div class="shop-title-area">
+            <h2>🛒 Quest Shop</h2>
+            <p style="color:var(--muted); font-size:0.88rem; margin-top:4px;">Customize your profile, unlock educational packs, and change styles!</p>
+          </div>
+          <div class="shop-stats-container">
+            <div class="shop-stat-box">
+              <span class="lbl">Your Coins</span>
+              <span class="val">🪙 <span id="shopCoinsVal">0</span></span>
+            </div>
+            <div class="shop-stat-box">
+              <span class="lbl">Your XP</span>
+              <span class="val">⚡ <span id="shopXPVal">0</span></span>
+            </div>
+            <div class="shop-stat-box">
+              <span class="lbl">Owned Items</span>
+              <span class="val">📦 <span id="shopOwnedVal">0</span></span>
+            </div>
+            <button class="shop-exchange-btn" onclick="exchangeXPToCoins()">
+              🔄 Exchange (1000 XP → 100 🪙)
+            </button>
+          </div>
+        </div>
+
+        <nav class="shop-nav" id="shopTabs">
+          <button class="shop-tab active" onclick="switchShopTab('cards', event)">🎨 Card Styles</button>
+          <button class="shop-tab" onclick="switchShopTab('edu', event)">📖 Educational Content</button>
+          <button class="shop-tab" onclick="switchShopTab('profile', event)">👤 Profile Customization</button>
+        </nav>
+
+        <div class="shop-grid" id="shopGrid"></div>
+      </div>
+    </section>
+
+    <!-- EDUCATIONAL CONTENT MODAL -->
+    <div id="shopContentModal" style="display:none; position:fixed; inset:0; z-index:2100; background:rgba(3,8,18,0.85); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:20px;">
+      <div class="game-shell" style="max-width:700px; width:100%; max-height:85vh; overflow-y:auto; position:relative; background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow);">
+        <button onclick="closeShopContentModal()" style="position:absolute; top:20px; right:20px; font-size:1.5rem; color:var(--muted); transition:color 0.2s; background:none; border:none; cursor:pointer;">✕</button>
+        <div id="shopModalContent" style="padding-top:10px;"></div>
+      </div>
+    </div>
 
     <!-- ABOUT -->
     <section class="page" id="page-about">
@@ -1010,18 +1321,6 @@ footer .brand{justify-content:center; margin-bottom:10px;}
       </div>
     </section>
 
-    <!-- GAME: MAP -->
-    <section class="page" id="page-game-map">
-      <div class="section" style="padding-top:28px;">
-        <div class="game-shell" style="max-width:960px;">
-          <div class="game-topbar">
-            <button class="back-link" onclick="navigate('games')">← Back to games</button>
-            <div class="hud"><div class="pill">📍 <span id="mapFound">0</span>/16 discovered</div></div>
-          </div>
-          <div id="mapBody"></div>
-        </div>
-      </div>
-    </section>
 
     <!-- GAME: JIGSAW -->
     <section class="page" id="page-game-jigsaw">
@@ -1116,13 +1415,12 @@ const GAMES = [
   {id:'guess', name:'Guess the Reservoir', icon:'🔍', cat:'quiz', diff:'Medium', time:'4 min', desc:'A blurred photo, hints, and a race to guess right.', route:'game-guess'},
   {id:'memory', name:'Memory Match', icon:'🎴', cat:'puzzle', diff:'Easy', time:'3 min', desc:'Flip cards to match each reservoir with its river.', route:'game-memory'},
   {id:'jigsaw', name:'Jigsaw Puzzle', icon:'🧩', cat:'puzzle', diff:'Medium', time:'4 min', desc:'Rebuild a real reservoir photo, tile by tile.', route:'game-jigsaw'},
-  {id:'map', name:'Interactive South India Map', icon:'🗺', cat:'map', diff:'Easy', time:'Open-ended', desc:'Click a reservoir on the map to reveal its story.', route:'game-map'},
   {id:'wheel', name:'Spin the Wheel', icon:'🎡', cat:'challenge', diff:'Easy', time:'2 min', desc:'Spin for a random trivia question or bonus coins.', route:'game-wheel'},
   {id:'challenge30', name:'30 Second Challenge', icon:'⚡', cat:'challenge', diff:'Hard', time:'30 sec', desc:'Answer as many rapid-fire questions as you can.', route:'game-challenge30'}
 ];
 
 /* ============================= STATE ============================= */
-const DEFAULT_STATE = {xp:0, coins:0, stars:0, gamesPlayed:0, bestScores:{}, unlocked:[], mapDiscovered:[], wheelSpins:0, soundOn:true, musicOn:true, theme:'dark'};
+const DEFAULT_STATE = {xp:0, coins:0, stars:0, gamesPlayed:0, bestScores:{}, unlocked:[], mapDiscovered:[], wheelSpins:0, soundOn:true, musicOn:true, theme:'dark', ownedItems:[], equippedCardStyle:'', equippedFrame:'', unlockedPacks:[]};
 let state = loadState();
 function loadState(){
   try{ const raw = localStorage.getItem('reservoirQuestState'); if(raw) return Object.assign({}, DEFAULT_STATE, JSON.parse(raw)); }catch(e){}
@@ -1139,6 +1437,15 @@ function refreshPills(){
   document.getElementById('pillXP').textContent = state.xp;
   document.getElementById('pillCoins').textContent = state.coins;
   const g = document.getElementById('statGamesPlayed'); if(g) g.textContent = state.gamesPlayed;
+  
+  // Update profile frame
+  const pPill = document.getElementById('profilePill');
+  if (pPill) {
+    pPill.className = 'pill'; // reset classes
+    if (state.equippedFrame) {
+      pPill.classList.add('profile-frame-' + state.equippedFrame.replace('frame_', ''));
+    }
+  }
 }
 function checkAchievements(){
   ACHIEVEMENTS.forEach(a=>{
@@ -1286,8 +1593,8 @@ function fallbackTile(reservoir){
 }
 
 /* ============================= ROUTER ============================= */
-const PAGES = ['home','games','achievements','leaderboard','settings','about','game-quiz','game-guess','game-memory','game-wheel','game-challenge30','game-map','game-jigsaw'];
-const NAV_ITEMS = [['home','Home'],['games','Games'],['achievements','Achievements'],['leaderboard','Leaderboard'],['settings','Settings'],['about','About']];
+const PAGES = ['home','games','achievements','leaderboard','settings','about','game-quiz','game-guess','game-memory','game-wheel','game-challenge30','game-jigsaw','shop'];
+const NAV_ITEMS = [['home','Home'],['games','Games'],['shop','Shop'],['achievements','Achievements'],['leaderboard','Leaderboard'],['settings','Settings'],['about','About']];
 
 function navigate(pageId, opts){
   opts = opts || {};
@@ -1307,8 +1614,8 @@ function navigate(pageId, opts){
   if(pageId==='game-memory') startMemory();
   if(pageId==='game-wheel') renderWheel();
   if(pageId==='game-challenge30') startChallenge30();
-  if(pageId==='game-map') renderMap();
   if(pageId==='game-jigsaw') startJigsaw();
+  if(pageId==='shop') renderShop();
   if(!opts.skipSound) playSound('click');
 }
 
@@ -1400,7 +1707,8 @@ document.getElementById('mobileNav').onclick = (e)=>{ if(e.target.id==='mobileNa
 /* ============================= HOME GRIDS ============================= */
 function gameCardHTML(g){
   const diffClass = g.diff.toLowerCase();
-  return `<div class="game-card" onclick="navigate('${g.route}')" tabindex="0" role="button" aria-label="Play ${g.name}">
+  const cardStyle = state.equippedCardStyle ? 'style-' + state.equippedCardStyle.replace('style_', '') : '';
+  return `<div class="game-card ${cardStyle}" onclick="navigate('${g.route}')" tabindex="0" role="button" aria-label="Play ${g.name}">
     <div class="icon">${g.icon}</div>
     <h3>${g.name}</h3>
     <p>${g.desc}</p>
@@ -1412,7 +1720,6 @@ function renderHomeGrids(){
   document.getElementById('gridPopular').innerHTML = GAMES.slice(0,4).map(gameCardHTML).join('');
   document.getElementById('gridQuiz').innerHTML = GAMES.filter(g=>g.cat==='quiz').map(gameCardHTML).join('');
   document.getElementById('gridPuzzle').innerHTML = GAMES.filter(g=>g.cat==='puzzle').map(gameCardHTML).join('');
-  document.getElementById('gridMap').innerHTML = GAMES.filter(g=>g.cat==='map').map(gameCardHTML).join('');
   document.getElementById('gridChallenge').innerHTML = GAMES.filter(g=>g.cat==='challenge').map(gameCardHTML).join('');
   renderPhotoWall();
 }
@@ -1491,6 +1798,7 @@ function resetProgress(){
   const theme = state.theme, musicOn = state.musicOn;
   state = JSON.parse(JSON.stringify(DEFAULT_STATE)); state.theme = theme; state.musicOn = musicOn;
   saveState(); refreshPills(); renderAchPreview(); renderAchFull(); renderLeaderboard();
+  renderHomeGrids();
   updateMusicSwitch(); syncMusicButton();
   toast('Progress reset');
 }
@@ -1827,49 +2135,6 @@ function endChallenge30(){
   document.getElementById('challenge30Body').innerHTML = resultsHTML(c30State.score, '∞', 'challenge30');
 }
 
-/* ============================= GAME: INTERACTIVE MAP ============================= */
-const MAP_POS = {
-  stanley:[46,58], krs:[38,64], idukki:[34,78], nagarjuna:[62,44], srisailam:[60,52],
-  tungabhadra:[42,50], bhavanisagar:[44,66], vaigai:[48,80], mullaperiyar:[36,80],
-  kabini:[30,66], banasura:[30,58], almatti:[46,32], hemavathi:[36,60], malampuzha:[36,72],
-  sathanur:[52,60], amaravathi:[50,70]
-};
-function renderMap(){
-  document.getElementById('mapFound').textContent = state.mapDiscovered.length;
-  const body = document.getElementById('mapBody');
-  body.innerHTML = `<p style="color:var(--muted); font-size:.85rem; margin-bottom:14px;">Tap a marker to reveal that reservoir's story.</p>
-    <div class="map-wrap" style="aspect-ratio:4/5; max-width:420px; margin:0 auto;">
-      ${RESERVOIRS.map(r=>{
-        const [x,y] = MAP_POS[r.id];
-        return `<div class="map-pin" style="left:${x}%; top:${y}%;" onclick="openMapPopup('${r.id}', event)" title="${r.name}"></div>`;
-      }).join('')}
-    </div>
-    <div id="mapPopupHolder"></div>`;
-}
-async function openMapPopup(id, ev){
-  ev.stopPropagation();
-  const r = RESERVOIRS.find(x=>x.id===id);
-  if(!state.mapDiscovered.includes(id)){
-    state.mapDiscovered.push(id); saveState(); addXP(5); checkAchievements();
-    document.getElementById('mapFound').textContent = state.mapDiscovered.length;
-  }
-  const holder = document.getElementById('mapPopupHolder');
-  const rect = ev.target.getBoundingClientRect();
-  const wrapRect = document.querySelector('.map-wrap').getBoundingClientRect();
-  holder.innerHTML = `<div class="map-popup" style="left:${Math.min(rect.left-wrapRect.left+10, wrapRect.width-270)}px; top:${rect.top-wrapRect.top+20}px;">
-    <div class="img-box" style="border-radius:12px; overflow:hidden; aspect-ratio:16/10; background:var(--surface2); margin-bottom:10px;"><div class="skel" style="width:100%; height:100%;"></div></div>
-    <strong>${r.name}</strong>
-    <div style="color:var(--muted); font-size:.8rem; margin:4px 0 8px;">${r.state} · ${r.river} River</div>
-    <div style="font-size:.82rem; line-height:1.4;">${r.fact}</div>
-    <button class="btn btn-ghost" style="margin-top:10px; width:100%; justify-content:center;" onclick="document.getElementById('mapPopupHolder').innerHTML=''">Close</button>
-  </div>`;
-  const urls = await fetchReservoirImages(r, 1);
-  const box = holder.querySelector('.img-box');
-  if(box){
-    if(urls && urls.length) box.innerHTML = imageTag(urls[0], r.name) + `<div class="fallback" style="display:none;">${fallbackTile(r).replace('display:flex;','')}</div>`;
-    else box.innerHTML = fallbackTile(r);
-  }
-}
 
 /* ============================= GAME: JIGSAW ============================= */
 let jigsawState = {};
@@ -1960,6 +2225,324 @@ function initCursor(){
 
 /* ============================= UTIL ============================= */
 function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+/* ============================= SHOP SYSTEM ============================= */
+const SHOP_ITEMS = [
+  { id: 'style_glass', category: 'cards', name: 'Glass Cards', desc: 'Sleek transparent cards with heavy background blur and white borders.', price: 100, icon: '🪟' },
+  { id: 'style_neon', category: 'cards', name: 'Neon Cards', desc: 'Electrifying cards with a glowing cyan neon outline and drop shadow.', price: 200, icon: '🌈' },
+  { id: 'style_wooden', category: 'cards', name: 'Wooden Cards', desc: 'Rustic wood grain gradient texture for a classic, natural vibe.', price: 150, icon: '🪵' },
+  { id: 'style_aqua', category: 'cards', name: 'Aqua Cards', desc: 'Deep ocean blue gradients that fit the reservoir theme perfectly.', price: 175, icon: '🌊' },
+  { id: 'style_dark', category: 'cards', name: 'Dark Cards', desc: 'Ultra-minimalist pitch black cards with subtle border accents.', price: 120, icon: '🌑' },
+  { id: 'style_gold', category: 'cards', name: 'Gold Premium Cards', desc: 'Shining gold gradient borders and text fit for a reservoir master.', price: 500, icon: '✨' },
+
+  { id: 'edu_facts_pack', category: 'edu', name: 'Reservoir Facts Pack', desc: 'Unlock 100 additional facts and statistics about major reservoirs.', price: 200, icon: '📚' },
+  { id: 'edu_history_facts', category: 'edu', name: 'Rare Historical Facts', desc: 'Historical documents and rare archive details about dam foundations.', price: 300, icon: '📜' },
+  { id: 'edu_eng_secrets', category: 'edu', name: 'Engineering Secrets', desc: 'Learn about spillways, gate designs, turbines, and dam physics.', price: 350, icon: '🏗' },
+  { id: 'edu_const_gallery', category: 'edu', name: 'Dam Construction Gallery', desc: 'Historical photos, construction illustrations, and structural views.', price: 400, icon: '🖼' },
+  { id: 'edu_fam_engineers', category: 'edu', name: 'Famous Engineers Collection', desc: 'Biographies and achievements of the visionary engineers who built these dams.', price: 450, icon: '👷' },
+
+  { id: 'frame_bronze', category: 'profile', name: 'Bronze Frame', desc: 'Add a metallic bronze frame around your profile avatar.', price: 50, icon: '🥉' },
+  { id: 'frame_silver', category: 'profile', name: 'Silver Frame', desc: 'Add a shining silver frame around your profile avatar.', price: 100, icon: '🥈' },
+  { id: 'frame_gold', category: 'profile', name: 'Gold Frame', desc: 'Add a brilliant gold frame around your profile avatar.', price: 200, icon: '🥇' },
+  { id: 'frame_diamond', category: 'profile', name: 'Diamond Frame', desc: 'A glowing celestial blue diamond frame that pulsates slightly.', price: 500, icon: '💎' },
+  { id: 'frame_royal', category: 'profile', name: 'Royal Crown', desc: 'Equip the legendary royal crown above your profile indicator.', price: 1000, icon: '👑' }
+];
+
+const EDUCATIONAL_CONTENT = {
+  edu_facts_pack: {
+    title: "📚 Reservoir Facts Pack",
+    html: `
+      <div style="font-family:var(--font-body); color:var(--text); line-height:1.6;">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--cyan); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px;">100 Additional Reservoir Facts</h3>
+        <div style="max-height:50vh; overflow-y:auto; padding-right:8px; display:flex; flex-direction:column; gap:12px;">
+          <p><strong>1. Mettur Dam (Stanley Reservoir)</strong> has a total capacity of 93.47 billion cubic feet (TMC), making it one of the largest reservoirs in Tamil Nadu.</p>
+          <p><strong>2. Krishna Raja Sagara (KRS)</strong> was constructed during a period of acute drought in the region, utilizing surki mortar, a combination of limestone and brick dust, instead of cement.</p>
+          <p><strong>3. Idukki Arch Dam</strong> is unique because it stands between two colossal granite hills named Kuravan and Kurathi, which act as natural abutments.</p>
+          <p><strong>4. Nagarjuna Sagar Dam</strong> has 26 radial gates, each measuring 45 feet by 44 feet, capable of discharging massive volumes of floodwater.</p>
+          <p><strong>5. Srisailam Reservoir</strong> is surrounded by the dense Nallamala forest, which contains the Nagarjunsagar-Srisailam Tiger Reserve, the largest tiger reserve in India.</p>
+          <p><strong>6. Tungabhadra Dam</strong> has faced significant siltation issues over the decades, reducing its original storage capacity by over 30 TMC.</p>
+          <p><strong>7. Bhavanisagar Dam</strong> is celebrated as one of the longest earthen dams in the world, spanning over 8 kilometers in length.</p>
+          <p><strong>8. Vaigai Dam</strong> has a unique water-sharing agreement that prioritizes irrigation for the double-crop agricultural lands of Madurai and Dindigul districts.</p>
+          <p><strong>9. Mullaperiyar Dam</strong> uses a gravity design constructed with limestone and surki mortar, which has stood resiliently for well over a century.</p>
+          <p><strong>10. Kabini Reservoir</strong> acts as a vital drinking water source for Bengaluru, Mysuru, and numerous villages in Karnataka.</p>
+          <p><strong>11. Banasura Sagar Dam</strong> is built entirely of massive boulders and soil, making it the largest earth-fill dam in India.</p>
+          <p><strong>12. Almatti Dam</strong>'s height was a subject of legal disputes between Karnataka, Andhra Pradesh, and Maharashtra regarding water distribution.</p>
+          <p><strong>13. Gorur Dam (Hemavathi)</strong> releases water that feeds into the Kaveri river system, supporting the agricultural heartlands of Southern Karnataka.</p>
+          <p><strong>14. Malampuzha Dam</strong> features a beautiful reservoir surrounded by the Western Ghats, with an adjoining rock garden designed by Nek Chand.</p>
+          <p><strong>15. Sathanur Dam</strong> features an Ogee-type spillway designed to handle high-velocity flood discharges from the Thenpennai River.</p>
+          <p><strong>16. Amaravathi Dam</strong> has a dedicated crocodile rearing farm, which helps conserve the vulnerable mugger crocodile species in the region.</p>
+          <p><strong>17. Storage and Yield:</strong> The Kaveri river basin, which feeds Stanley, KRS, Gorur, and Bhavanisagar reservoirs, is one of the most highly utilized river basins in India.</p>
+          <p><strong>18. Hydropower Contributions:</strong> Srisailam and Idukki reservoirs collectively generate a significant portion of the hydroelectric power supplied to Andhra Pradesh, Telangana, and Kerala.</p>
+          <p><strong>19. Flood Control:</strong> The Amaravathi and Vaigai reservoirs play a crucial role in preventing seasonal river floods in Madurai and Tiruppur districts during the Northeast monsoon.</p>
+          <p><strong>20. Ecological Balance:</strong> Reservoirs like Kabini and Mullaperiyar are critical watering holes for wild elephants, tigers, and gaur during the hot summer months.</p>
+          <p style="color:var(--muted); font-size:0.85rem; border-top:1px dashed var(--line); padding-top:8px;">* Unlocked premium educational pack. Showing top highlights of the 100 additional facts dataset.</p>
+        </div>
+      </div>
+    `
+  },
+  edu_history_facts: {
+    title: "📜 Rare Historical Facts",
+    html: `
+      <div style="font-family:var(--font-body); color:var(--text); line-height:1.6;">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--cyan); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px;">Rare Archive & Historical Details</h3>
+        <div style="max-height:50vh; overflow-y:auto; padding-right:8px; display:flex; flex-direction:column; gap:12px;">
+          <p><strong>The Sacrifice of Pennycuick (Mullaperiyar):</strong> When the British government withdrew funding for the Mullaperiyar Dam due to initial failures, British Army Engineer John Pennycuick returned to England, sold all his family property, inheritance, and personal valuables, and returned to India to finish the construction with his own funds. Today, he is revered as a local hero in the Theni district of Tamil Nadu.</p>
+          <hr style="border:none; border-top:1px solid var(--line);">
+          <p><strong>The Surki Mortar of KRS Dam:</strong> In the early 1900s, cement was not manufactured in India and importing it from England was prohibitively expensive. Sir M. Visvesvaraya formulated a local recipe of 'Surki' mortar—a mixture of slaked lime and burnt clay brick dust. This mortar actually gets stronger over time and provides excellent water tightness, enabling the KRS Dam to stand strong for over a century.</p>
+          <hr style="border:none; border-top:1px solid var(--line);">
+          <p><strong>The Submerged Town of Mettur:</strong> The construction of Stanley Reservoir (Mettur Dam) in 1934 submerged several old villages, including the original Mettur village. During extreme droughts when the reservoir water level drops significantly, the remains of the old church and temple towers emerge from the water, visible to locals.</p>
+          <hr style="border:none; border-top:1px solid var(--line);">
+          <p><strong>Royal Patronage of KRS:</strong> Maharaja Krishnaraja Wadiyar IV of Mysore sold his family gold, jewels, and silver ornaments from the royal treasury to finance the construction of the KRS Dam when the project ran out of funds. The dam was subsequently named in his honor.</p>
+        </div>
+      </div>
+    `
+  },
+  edu_eng_secrets: {
+    title: "🏗 Engineering Secrets",
+    html: `
+      <div style="font-family:var(--font-body); color:var(--text); line-height:1.6;">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--cyan); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px;">Dam Engineering & Physics Secrets</h3>
+        <div style="max-height:50vh; overflow-y:auto; padding-right:8px; display:flex; flex-direction:column; gap:12px;">
+          <p><strong>1. Gravity Dam Principles:</strong> Gravity dams (like Mettur and Nagarjuna Sagar) use their massive weight to resist the horizontal force of water. The force of gravity pulls the concrete down, while friction at the foundation keeps the dam from sliding forward. The dam shape is wider at the base to handle the increasing hydrostatic pressure at the bottom.</p>
+          <p><strong>2. Arch Dam Physics:</strong> Arch dams (like Idukki Dam) are curved. Instead of relying solely on their weight, their curved shape directs the force of the water outwards into the canyon walls (abutments) on either side. This allows the dam to be much thinner than a gravity dam, saving vast amounts of concrete.</p>
+          <p><strong>3. Ogee Spillway Design:</strong> An Ogee spillway has an S-shaped curve that matches the profile of the lower surface of a aerated water sheet. This profile ensures smooth, high-velocity water flow, minimizing turbulence and preventing negative pressures (cavitation) that can erode the concrete surface of the dam.</p>
+          <p><strong>4. Turbine Mechanics (Francis vs. Kaplan):</strong>
+            <ul>
+              <li><strong>Francis Turbines:</strong> Used for medium head (medium height) and large flow rates. Water enters radially and exits axially, rotating the runner blades.</li>
+              <li><strong>Kaplan Turbines:</strong> Similar to a boat propeller with adjustable blades, used for low head but high flow rates, allowing high efficiency in varying water levels.</li>
+            </ul>
+          </p>
+          <p><strong>5. Siltation Control:</strong> Siltation occurs as rivers carry sediment that settles at the bottom of the reservoir. Engineers use bottom outlets and sluices to flush out sediment during high floods, preventing the reservoir from losing its active storage volume.</p>
+        </div>
+      </div>
+    `
+  },
+  edu_const_gallery: {
+    title: "🖼 Dam Construction Gallery",
+    html: `
+      <div style="font-family:var(--font-body); color:var(--text); line-height:1.6;">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--cyan); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px;">Historic Construction Gallery & Steps</h3>
+        <div style="max-height:50vh; overflow-y:auto; padding-right:8px; display:flex; flex-direction:column; gap:16px;">
+          <div>
+            <h4 style="color:var(--cyan); margin-bottom:6px;">Phase 1: River Diversion & Coffer Dams</h4>
+            <p style="font-size:0.88rem; color:var(--muted); margin-bottom:8px;">Before constructing the dam, engineers must divert the river flow away from the construction site. Temporary dams called <strong>Coffer Dams</strong> are built upstream and downstream, and a diversion channel or tunnel carries the water around the dry construction site.</p>
+            <div style="background:var(--surface2); border:1px solid var(--line); border-radius:8px; padding:12px; text-align:center;">
+              <svg viewBox="0 0 200 80" style="width:100%; max-width:240px; margin:0 auto; fill:none; stroke:var(--cyan); stroke-width:1.5;">
+                <path d="M10 10 L80 10 L80 70 L10 70" stroke-dasharray="3,3" />
+                <path d="M110 10 L190 10 L190 70 L110 70" stroke-dasharray="3,3" />
+                <path d="M80 30 Q95 20 110 30" stroke="var(--blue)" stroke-width="2"/>
+                <rect x="85" y="38" width="20" height="20" rx="3" fill="var(--surface3)" stroke="var(--claude)"/>
+                <text x="95" y="52" font-size="6" text-anchor="middle" fill="var(--text)" stroke="none">Site</text>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <h4 style="color:var(--cyan); margin-bottom:6px;">Phase 2: Foundation Excavation & Grouting</h4>
+            <p style="font-size:0.88rem; color:var(--muted); margin-bottom:8px;">Workers excavate loose soil until they reach solid bedrock. To fill cracks and joints in the rock, liquid cement mixture (grouting) is pumped under high pressure into holes drilled in the rock, creating a watertight curtain beneath the dam.</p>
+          </div>
+          <div>
+            <h4 style="color:var(--cyan); margin-bottom:6px;">Phase 3: Concrete Block Placement & Curing</h4>
+            <p style="font-size:0.88rem; color:var(--muted); margin-bottom:8px;">Dams are built in interlocking blocks rather than as a single monolithic structure to prevent cracking from thermal contraction. Massive cableways carry buckets of concrete to the blocks, which are carefully vibrated and cured with water spray.</p>
+          </div>
+        </div>
+      </div>
+    `
+  },
+  edu_fam_engineers: {
+    title: "👷 Famous Engineers Collection",
+    html: `
+      <div style="font-family:var(--font-body); color:var(--text); line-height:1.6;">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--cyan); margin-bottom:12px; border-bottom:1px solid var(--line); padding-bottom:8px;">Visionary Builders & Engineers</h3>
+        <div style="max-height:50vh; overflow-y:auto; padding-right:8px; display:flex; flex-direction:column; gap:16px;">
+          <div style="background:var(--surface2); border:1px solid var(--line); border-radius:var(--radius-md); padding:16px; display:flex; gap:12px; align-items:flex-start;">
+            <span style="font-size:2.2rem;">👷‍♂️</span>
+            <div>
+              <h4 style="color:var(--cyan); font-family:var(--font-display); font-size:1.1rem; margin-bottom:4px;">Sir Mokshagundam Visvesvaraya</h4>
+              <p style="font-size:0.8rem; color:var(--muted); margin-bottom:6px;">1860 – 1962 | Father of Indian Engineering</p>
+              <p style="font-size:0.88rem;">Designed the <strong>Krishna Raja Sagara Dam</strong> in Mysore. He patented automatic sluice gates which were first installed at the Khadakwasla Reservoir in Pune in 1903. His birthday, September 15, is celebrated as Engineers' Day in India.</p>
+            </div>
+          </div>
+          <div style="background:var(--surface2); border:1px solid var(--line); border-radius:var(--radius-md); padding:16px; display:flex; gap:12px; align-items:flex-start;">
+            <span style="font-size:2.2rem;">💂‍♂️</span>
+            <div>
+              <h4 style="color:var(--cyan); font-family:var(--font-display); font-size:1.1rem; margin-bottom:4px;">Colonel John Pennycuick</h4>
+              <p style="font-size:0.8rem; color:var(--muted); margin-bottom:6px;">1841 – 1911 | Royal Engineers, British Army</p>
+              <p style="font-size:0.88rem;">Designed and built the <strong>Mullaperiyar Dam</strong>. He famously financed the completion of the dam out of his own pocket after British funding was suspended. His memory is still venerated in South India today.</p>
+            </div>
+          </div>
+          <div style="background:var(--surface2); border:1px solid var(--line); border-radius:var(--radius-md); padding:16px; display:flex; gap:12px; align-items:flex-start;">
+            <span style="font-size:2.2rem;">👨‍💼</span>
+            <div>
+              <h4 style="color:var(--cyan); font-family:var(--font-display); font-size:1.1rem; margin-bottom:4px;">Sir Arthur Cotton</h4>
+              <p style="font-size:0.8rem; color:var(--muted); margin-bottom:6px;">1803 – 1899 | Irrigation Pioneer</p>
+              <p style="font-size:0.88rem;">Engineered the Dowleswaram Barrage across the Godavari and the Grand Anicut (Kallanai) modifications. His methods saved millions of people from severe droughts and famines in Andhra Pradesh.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  }
+};
+
+let activeShopTab = 'cards';
+
+function renderShop(){
+  // Update shop header stats
+  document.getElementById('shopCoinsVal').textContent = state.coins;
+  document.getElementById('shopXPVal').textContent = state.xp;
+  document.getElementById('shopOwnedVal').textContent = state.ownedItems ? state.ownedItems.length : 0;
+
+  const grid = document.getElementById('shopGrid');
+  if(!grid) return;
+
+  const filteredItems = SHOP_ITEMS.filter(item => item.category === activeShopTab);
+
+  grid.innerHTML = filteredItems.map(item => {
+    const isOwned = state.ownedItems.includes(item.id);
+    let btnHTML = '';
+
+    if (!isOwned) {
+      btnHTML = `<button class="shop-btn shop-btn-buy" onclick="buyShopItem('${item.id}')">Buy</button>`;
+    } else {
+      if (item.category === 'cards') {
+        const isEquipped = state.equippedCardStyle === item.id;
+        btnHTML = isEquipped 
+          ? `<button class="shop-btn shop-btn-equipped" disabled>Equipped</button>`
+          : `<button class="shop-btn shop-btn-equip" onclick="equipShopItem('${item.id}')">Equip</button>`;
+      } else if (item.category === 'profile') {
+        const isEquipped = state.equippedFrame === item.id;
+        btnHTML = isEquipped 
+          ? `<div style="display:flex; gap:6px;"><button class="shop-btn shop-btn-equipped" disabled>Equipped</button><button class="shop-btn shop-btn-unequip" onclick="unequipShopItem('${item.id}')">Unequip</button></div>`
+          : `<button class="shop-btn shop-btn-equip" onclick="equipShopItem('${item.id}')">Equip</button>`;
+      } else if (item.category === 'edu') {
+        btnHTML = `<div style="display:flex; gap:6px;"><button class="shop-btn shop-btn-owned" disabled>Owned ✓</button>` +
+                  `<button class="shop-btn shop-btn-equip" onclick="showShopContent('${item.id}')">Read</button></div>`;
+      }
+    }
+
+    return `
+      <div class="shop-card">
+        <div class="shop-card-icon">${item.icon}</div>
+        <div class="shop-card-info">
+          <span class="shop-card-title">${item.name}</span>
+          <span class="shop-card-desc">${item.desc}</span>
+        </div>
+        <div class="shop-card-footer">
+          <span class="shop-price">🪙 ${item.price}</span>
+          <div style="display:flex; align-items:center;">${btnHTML}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function switchShopTab(category, event) {
+  activeShopTab = category;
+  document.querySelectorAll('#shopTabs .shop-tab').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  }
+  renderShop();
+}
+
+function buyShopItem(itemId) {
+  const item = SHOP_ITEMS.find(i => i.id === itemId);
+  if (!item) return;
+
+  if (state.coins < item.price) {
+    toast('⚠️ Not enough coins!');
+    return;
+  }
+
+  state.coins -= item.price;
+  if (!state.ownedItems) state.ownedItems = [];
+  state.ownedItems.push(itemId);
+  
+  if (item.category === 'edu') {
+    if (!state.unlockedPacks) state.unlockedPacks = [];
+    state.unlockedPacks.push(itemId);
+    toast(`📚 ${item.name} Unlocked`);
+  } else {
+    toast(`✅ Purchased ${item.name}`);
+  }
+
+  saveState();
+  refreshPills();
+  renderShop();
+}
+
+function equipShopItem(itemId) {
+  const item = SHOP_ITEMS.find(i => i.id === itemId);
+  if (!item) return;
+
+  if (item.category === 'cards') {
+    state.equippedCardStyle = itemId;
+    toast(`⭐ ${item.name} Equipped`);
+    renderHomeGrids();
+  } else if (item.category === 'profile') {
+    state.equippedFrame = itemId;
+    toast(`⭐ ${item.name} Equipped`);
+  }
+
+  saveState();
+  refreshPills();
+  renderShop();
+}
+
+function unequipShopItem(itemId) {
+  const item = SHOP_ITEMS.find(i => i.id === itemId);
+  if (!item) return;
+
+  if (item.category === 'profile') {
+    state.equippedFrame = '';
+    toast(`⭐ Profile Frame Unequipped`);
+  }
+
+  saveState();
+  refreshPills();
+  renderShop();
+}
+
+function exchangeXPToCoins() {
+  if (state.xp < 1000) {
+    toast('⚠️ You need at least 1000 XP to exchange.');
+    return;
+  }
+  if (!confirm('Are you sure you want to exchange 1000 XP for 100 Coins?')) {
+    return;
+  }
+  state.xp -= 1000;
+  state.coins += 100;
+  saveState();
+  refreshPills();
+  toast('🎉 100 Coins Added');
+  if (location.hash === '#shop') {
+    renderShop();
+  }
+}
+
+function showShopContent(itemId) {
+  const content = EDUCATIONAL_CONTENT[itemId];
+  if (!content) return;
+  const modal = document.getElementById('shopContentModal');
+  const body = document.getElementById('shopModalContent');
+  if (modal && body) {
+    body.innerHTML = `
+      <h2 style="font-family:var(--font-display); font-size:1.6rem; color:var(--text); margin-bottom:18px;">${content.title}</h2>
+      ${content.html}
+    `;
+    modal.style.display = 'flex';
+  }
+}
+
+function closeShopContentModal() {
+  const modal = document.getElementById('shopContentModal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
 
 /* ============================= INIT ============================= */
 function init(){
