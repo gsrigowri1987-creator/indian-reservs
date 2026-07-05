@@ -589,6 +589,15 @@ footer .brand{justify-content:center; margin-bottom:10px;}
   -webkit-mask-image:linear-gradient(to bottom, transparent 0%, black 8%, black 90%, transparent 100%);
   mask-image:linear-gradient(to bottom, transparent 0%, black 8%, black 90%, transparent 100%);
 }
+.about-credits-stage:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+  z-index: 9999 !important;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 90%, transparent 100%);
+}
 .about-credits-stage .credits-vignette{
   position:absolute; inset:0; pointer-events:none; z-index:3;
   background:radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.55) 78%, rgba(0,0,0,.92) 100%);
@@ -1013,6 +1022,19 @@ footer .brand{justify-content:center; margin-bottom:10px;}
 .quiz-complete-stat.streak-stat .val {
   color: #ff4e50;
 }
+@keyframes timerPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.timer-urgent {
+  background: var(--danger) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  animation: timerPulse 0.5s infinite ease-in-out;
+  box-shadow: 0 0 12px var(--danger);
+  border-color: var(--danger) !important;
+}
 </style>
 </head>
 <body data-theme="dark">
@@ -1256,18 +1278,22 @@ footer .brand{justify-content:center; margin-bottom:10px;}
             <div class="about-credits-stage" id="aboutCreditsStage">
               <div class="credits-vignette"></div>
               <div class="about-credits-crawl" id="aboutCreditsCrawl">
-                <div style="height:16vh;"></div>
+                <div class="spacer-top" style="height:20vh;"></div>
+
                 <div class="block">
                   <div class="sub-title">A South Indian Water Heritage Experience</div>
                   <div class="glow-title">RESERVOIR QUEST</div>
-                  <div class="quote">"Explore • Learn • Discover"</div>
+                  <div class="quote">"Explore &nbsp;•&nbsp; Learn &nbsp;•&nbsp; Discover"</div>
                 </div>
+
                 <div class="block">
                   <div class="role">Created By</div>
                   <div class="name">G. Abidarman</div>
                   <div class="meta">Class X-B<br>L. M. Dadha Senior Secondary School<br>Choolaimedu, Chennai</div>
                 </div>
+
                 <div class="divider"></div>
+
                 <div class="block">
                   <div class="sub-title">Project Contributions</div>
                   <div class="body-text">This project was independently conceived, designed,<br>developed, and completed by <strong>G. Abidarman</strong>.</div>
@@ -1292,18 +1318,28 @@ footer .brand{justify-content:center; margin-bottom:10px;}
                     <li>Final Testing &amp; Quality Assurance</li>
                   </ul>
                 </div>
+
                 <div class="divider"></div>
+
                 <div class="block">
                   <div class="sub-title">Project Objective</div>
-                  <div class="body-text">Reservoir Quest was created to make learning about the reservoirs of South India engaging, interactive, and enjoyable through educational games, maps, quizzes, and real‑world information.</div>
+                  <div class="body-text">
+                    Reservoir Quest was created to make learning about the<br>
+                    reservoirs of South India engaging, interactive, and enjoyable<br>
+                    through educational games, maps, quizzes, and real‑world information.
+                  </div>
                 </div>
+
                 <div class="divider"></div>
+
                 <div class="block">
                   <div class="sub-title">Submitted To</div>
-                  <div class="name" style="font-size:clamp(1.1rem,2.4vw,1.5rem);">L. M. Dadha Senior Secondary School</div>
+                  <div class="name" style="font-size:clamp(1.3rem,2.6vw,1.8rem);">L. M. Dadha Senior Secondary School</div>
                   <div class="meta">Choolaimedu, Chennai<br>Academic Project — 2026–2027</div>
                 </div>
+
                 <div class="divider"></div>
+
                 <div class="block">
                   <div class="sub-title">Information Sources</div>
                   <ul class="list">
@@ -1315,17 +1351,25 @@ footer .brand{justify-content:center; margin-bottom:10px;}
                     <li>Wikipedia (General Reference)</li>
                   </ul>
                 </div>
+
                 <div class="divider"></div>
+
                 <div class="block">
                   <div class="sub-title">Special Thanks</div>
-                  <div class="body-text">To the Principal, teachers, school staff, and classmates of <strong>L. M. Dadha Senior Secondary School</strong> for their encouragement and support.</div>
+                  <div class="body-text">
+                    To the Principal, teachers, school staff, and classmates<br>
+                    of <strong>L. M. Dadha Senior Secondary School</strong><br>
+                    for their encouragement and support.
+                  </div>
                 </div>
+
                 <div class="divider"></div>
+
                 <div class="final">
                   <div class="sub-title">Reservoir Quest</div>
                   <div class="glow-title">THANK YOU</div>
                   <div class="quote">"Explore • Learn • Discover"</div>
-                  <div class="meta" style="margin-top:1.2em;">Designed and Developed by <strong>G. Abidarman</strong></div>
+                  <div class="meta" style="margin-top:1.4em;">Designed and Developed by <strong>G. Abidarman</strong></div>
                   <div class="copyright">© 2026 All Rights Reserved</div>
                 </div>
               </div>
@@ -1344,7 +1388,7 @@ footer .brand{justify-content:center; margin-bottom:10px;}
             <div class="hud">
               <div class="pill">❤️ <span id="quizLives">3</span></div>
               <div class="pill">⭐ <span id="quizScore">0</span></div>
-              <div class="pill">⏱ <span id="quizTimer">15</span>s</div>
+              <div class="pill" id="quizTimerPill">⏱ <span id="quizTimer">15</span>s</div>
             </div>
           </div>
           <div id="quizBody"></div>
@@ -1394,7 +1438,7 @@ footer .brand{justify-content:center; margin-bottom:10px;}
         <div class="game-shell">
           <div class="game-topbar">
             <button class="back-link" onclick="navigate('games')">← Back to games</button>
-            <div class="hud"><div class="pill">⭐ <span id="c30Score">0</span></div><div class="pill">⏱ <span id="c30Timer">30</span>s</div></div>
+            <div class="hud"><div class="pill">⭐ <span id="c30Score">0</span></div><div class="pill" id="c30TimerPill">⏱ <span id="c30Timer">30</span>s</div></div>
           </div>
           <div id="challenge30Body"></div>
         </div>
@@ -1624,13 +1668,39 @@ function initMusic(){
   state.musicOn = true;
   saveState();
   startMusic();
-  const unlock = ()=>{
+  const unlockAndFullscreen = ()=>{
     if(!musicStarted && state.musicOn) startMusic();
-    window.removeEventListener('pointerdown', unlock);
-    window.removeEventListener('keydown', unlock);
+    const docEl = document.documentElement;
+    if (!document.fullscreenElement) {
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen().catch(()=>{});
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen().catch(()=>{});
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen().catch(()=>{});
+      }
+    }
+    window.removeEventListener('pointerdown', unlockAndFullscreen);
+    window.removeEventListener('keydown', unlockAndFullscreen);
   };
-  window.addEventListener('pointerdown', unlock, {once:true});
-  window.addEventListener('keydown', unlock, {once:true});
+  window.addEventListener('pointerdown', unlockAndFullscreen, {once:true});
+  window.addEventListener('keydown', unlockAndFullscreen, {once:true});
+  
+  const persistentFullscreen = ()=>{
+    const docEl = document.documentElement;
+    if (!document.fullscreenElement) {
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen().catch(()=>{});
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen().catch(()=>{});
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen().catch(()=>{});
+      }
+    }
+  };
+  window.addEventListener('click', persistentFullscreen);
+  window.addEventListener('touchend', persistentFullscreen);
+
   document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state.musicOn) startMusic(); });
   window.addEventListener('load', startMusic);
   syncMusicButton();
@@ -1931,6 +2001,8 @@ function renderQuizQuestion(){
   if(quizState.i >= quizState.qs.length || quizState.lives<=0){ return endQuiz(); }
   const q = quizState.qs[quizState.i];
   quizState.timer = 15;
+  const pill = document.getElementById('quizTimerPill');
+  if (pill) pill.classList.remove('timer-urgent');
   document.getElementById('quizScore').textContent = quizState.score;
   document.getElementById('quizTimer').textContent = quizState.timer;
   const body = document.getElementById('quizBody');
@@ -1969,6 +2041,10 @@ function startQuizTimer(){
   quizState.interval = setInterval(()=>{
     quizState.timer -= 1;
     const t = document.getElementById('quizTimer'); if(t) t.textContent = quizState.timer;
+    const pill = document.getElementById('quizTimerPill');
+    if (pill) {
+      pill.classList.toggle('timer-urgent', quizState.timer <= 5);
+    }
     if(quizState.timer<=0){ clearInterval(quizState.interval); answerQuiz(-1); }
   },1000);
 }
@@ -2411,10 +2487,16 @@ function startChallenge30(){
   c30State = {score:0, timer:30, interval:null, pool:shuffle([...QUIZ_QUESTIONS])};
   document.getElementById('c30Score').textContent = 0;
   document.getElementById('c30Timer').textContent = 30;
+  const pill = document.getElementById('c30TimerPill');
+  if (pill) pill.classList.remove('timer-urgent');
   nextC30Question();
   clearInterval(c30State.interval);
   c30State.interval = setInterval(()=>{
     c30State.timer--; document.getElementById('c30Timer').textContent = c30State.timer;
+    const p = document.getElementById('c30TimerPill');
+    if (p) {
+      p.classList.toggle('timer-urgent', c30State.timer <= 5);
+    }
     if(c30State.timer<=0){ clearInterval(c30State.interval); endChallenge30(); }
   },1000);
 }
@@ -2437,6 +2519,9 @@ function answerC30(idx){
   nextC30Question();
 }
 function endChallenge30(){
+  clearInterval(c30State.interval);
+  const pill = document.getElementById('c30TimerPill');
+  if (pill) pill.classList.remove('timer-urgent');
   recordScore('challenge30', c30State.score);
   document.getElementById('challenge30Body').innerHTML = resultsHTML(c30State.score, '∞', 'challenge30');
 }
@@ -2850,6 +2935,61 @@ function closeShopContentModal() {
   }
 }
 
+/* ============================= CREDITS ROLL SYSTEM ============================= */
+function startAboutCredits(){
+  const sfx = document.getElementById('creditsSfx');
+  const crawl = document.getElementById('aboutCreditsCrawl');
+  const stage = document.getElementById('aboutCreditsStage');
+  const btn = document.getElementById('playCreditsBtn');
+  if(!crawl || !stage) return;
+  
+  if(crawl.classList.contains('playing')){
+    crawl.classList.remove('playing');
+    crawl.style.animationPlayState = 'paused';
+    if(sfx) sfx.pause();
+    if(btn) btn.textContent = 'Roll Credits ♪';
+  } else {
+    crawl.classList.add('playing');
+    crawl.style.animationPlayState = 'running';
+    const bg = document.getElementById('bgMusic');
+    const game = document.getElementById('gameMusic');
+    if(bg) bg.pause();
+    if(game) game.pause();
+    if(sfx && state.musicOn){
+      sfx.volume = 0.45;
+      sfx.play().catch(()=>{});
+    }
+    if(btn) btn.textContent = 'Pause Credits Ⅱ';
+    
+    crawl.style.animation = 'none';
+    void crawl.offsetWidth;
+    crawl.style.animation = 'aboutCreditsScroll 150s linear forwards';
+    crawl.style.animationPlayState = 'running';
+  }
+}
+
+function toggleCreditsFullscreen(){
+  const stage = document.getElementById('aboutCreditsStage');
+  if(!stage) return;
+  if (!document.fullscreenElement) {
+    if (stage.requestFullscreen) {
+      stage.requestFullscreen();
+    } else if (stage.webkitRequestFullscreen) {
+      stage.webkitRequestFullscreen();
+    } else if (stage.msRequestFullscreen) {
+      stage.msRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+}
+
 /* ============================= INIT ============================= */
 function init(){
   if (state.coins === 995325 || state.coins === 1000000) {
@@ -2867,6 +3007,21 @@ function init(){
   updateMusicSwitch();
   initMusic();
   initHeroCanvas();
+  
+  // Attach credits click/touch listener for fullscreen support
+  const creditsStage = document.getElementById('aboutCreditsStage');
+  if(creditsStage) {
+    creditsStage.onclick = toggleCreditsFullscreen;
+    creditsStage.style.cursor = 'zoom-in';
+  }
+  
+  // Listen for fullscreen change to toggle cursor styling
+  document.addEventListener('fullscreenchange', () => {
+    if(creditsStage) {
+      creditsStage.style.cursor = document.fullscreenElement ? 'zoom-out' : 'zoom-in';
+    }
+  });
+
   const startPage = (location.hash||'#home').replace('#','');
   navigate(PAGES.includes(startPage) ? startPage : 'home');
 }
