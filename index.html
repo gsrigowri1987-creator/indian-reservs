@@ -1035,6 +1035,191 @@ footer .brand{justify-content:center; margin-bottom:10px;}
   box-shadow: 0 0 12px var(--danger);
   border-color: var(--danger) !important;
 }
+
+/* ---------- Rohini House & Credits Styles ---------- */
+.rohini-section, .credits-section {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 28px 24px;
+  margin: 32px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+[data-theme="light"] .rohini-section, [data-theme="light"] .credits-section {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+.rohini-section:hover, .credits-section:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 15px 35px rgba(34, 211, 238, 0.08);
+}
+.rohini-title, .credits-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+}
+.rohini-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 600px) {
+  .rohini-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.rohini-role-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+[data-theme="light"] .rohini-role-card {
+  background: rgba(0, 0, 0, 0.01);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+.rohini-role-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+[data-theme="light"] .rohini-role-card:hover {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+.rohini-role-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rohini-role-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.rohini-members-list {
+  grid-column: 1 / -1;
+}
+.rohini-members-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rohini-members-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 480px) {
+  .rohini-members-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 768px) {
+  .rohini-members-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.rohini-member-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+[data-theme="light"] .rohini-member-item {
+  background: rgba(0, 0, 0, 0.01);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+.rohini-member-item:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.04);
+}
+[data-theme="light"] .rohini-member-item:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+.rohini-member-num {
+  color: var(--cyan);
+  font-weight: 700;
+  font-size: 0.8rem;
+  width: 18px;
+}
+.credits-text {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+.credits-highlight-card {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.06), rgba(59, 130, 246, 0.06));
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  border-radius: 12px;
+  padding: 18px;
+  margin-top: 16px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.credits-highlight-card:hover {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(59, 130, 246, 0.08));
+  border-color: rgba(34, 211, 238, 0.25);
+}
+.credits-creator-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.credits-creator-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.credits-creator-sub {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.credits-creator-desc {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 10px;
+}
+[data-theme="light"] .credits-creator-desc {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
 </style>
 </head>
 <body data-theme="dark">
@@ -1265,6 +1450,50 @@ footer .brand{justify-content:center; margin-bottom:10px;}
           <p style="color:var(--muted); line-height:1.7; margin-bottom:24px;">Everything runs locally in your browser. No sign-up, no server, no tracking — your progress is saved only on this device.</p>
           <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px;">
             <span class="tag">Educational Game</span><span class="tag">School Project</span><span class="tag">No backend</span><span class="tag">Built with ♥</span>
+          </div>
+
+          <!-- ROHINI HOUSE MEMBERS SECTION -->
+          <div class="rohini-section">
+            <h3 class="rohini-title">👥 Rohini House – Class XB</h3>
+            <div class="rohini-grid">
+              <div class="rohini-role-card">
+                <div class="rohini-role-label">🏆 Captain</div>
+                <div class="rohini-role-name">G. Abidarman</div>
+              </div>
+              <div class="rohini-role-card">
+                <div class="rohini-role-label">🥈 Vice Captain</div>
+                <div class="rohini-role-name">V. Yazhini</div>
+              </div>
+              <div class="rohini-members-list">
+                <div class="rohini-members-title">👥 Members</div>
+                <div class="rohini-members-grid">
+                  <div class="rohini-member-item"><span class="rohini-member-num">1</span> B. Tejesh Raghavendra</div>
+                  <div class="rohini-member-item"><span class="rohini-member-num">2</span> S. Rithish</div>
+                  <div class="rohini-member-item"><span class="rohini-member-num">3</span> V. Chaman</div>
+                  <div class="rohini-member-item"><span class="rohini-member-num">4</span> M. Manish U.P</div>
+                  <div class="rohini-member-item"><span class="rohini-member-num">5</span> G. Nagul</div>
+                  <div class="rohini-member-item"><span class="rohini-member-num">6</span> K. Gayathri</div>
+                  <div class="rohini-member-item"><span class="rohini-member-num">7</span> T. Harshita Sharma</div>
+                  <div class="rohini-member-item"><span class="rohini-member-num">8</span> S. Karthiga</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WEBSITE CREDITS SECTION (COMPLETELY SEPARATE) -->
+          <div class="credits-section">
+            <h3 class="credits-title">💻 Website Credits</h3>
+            <div class="credits-text">
+              <p>Designed, Developed, Programmed & Maintained by</p>
+              <div class="credits-highlight-card">
+                <div class="credits-creator-title">🏆 Creator & Developer</div>
+                <div class="credits-creator-name">G. Abidarman</div>
+                <div class="credits-creator-sub">Captain – Rohini House (Class XB)</div>
+                <div class="credits-creator-desc">
+                  This website was independently created from start to finish by G. Abidarman.
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="about-credits-wrap">
@@ -2406,10 +2635,12 @@ const WHEEL_SEGMENTS = [
 let wheelSpinning = false;
 function renderWheel(){
   const body = document.getElementById('wheelBody');
+  const spinsUsed = state.wheelSpins || 0;
+  const isFinished = spinsUsed >= 3;
   body.innerHTML = `<div class="wheel-wrap">
     <canvas id="wheelCanvas" width="320" height="320"></canvas>
-    <button class="btn btn-primary" id="spinBtn" onclick="spinWheel()">🎡 Spin</button>
-    <div id="wheelResult"></div>
+    <button class="btn btn-primary" id="spinBtn" onclick="spinWheel()" ${isFinished ? 'disabled' : ''}>🎡 Spin</button>
+    <div id="wheelResult">${isFinished ? '<p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>' : ''}</div>
   </div>`;
   drawWheel(0);
 }
@@ -2432,7 +2663,9 @@ function drawWheel(rotation){
   ctx.fillStyle = '#22D3EE'; ctx.fill();
 }
 function spinWheel(){
-  if(wheelSpinning) return; wheelSpinning=true;
+  if(wheelSpinning) return;
+  if((state.wheelSpins || 0) >= 3) return;
+  wheelSpinning=true;
   document.getElementById('spinBtn').disabled = true;
   const n = WHEEL_SEGMENTS.length, arc = Math.PI*2/n;
   const targetIndex = Math.floor(Math.random()*n);
@@ -2445,8 +2678,13 @@ function spinWheel(){
     drawWheel(finalRotation*eased);
     if(t<1) requestAnimationFrame(frame);
     else{
-      wheelSpinning=false; document.getElementById('spinBtn').disabled=false;
+      wheelSpinning=false;
       state.wheelSpins = (state.wheelSpins||0)+1; saveState(); checkAchievements();
+      if(state.wheelSpins >= 3){
+        document.getElementById('spinBtn').disabled = true;
+      } else {
+        document.getElementById('spinBtn').disabled = false;
+      }
       resolveWheelSegment(WHEEL_SEGMENTS[targetIndex]);
     }
   }
@@ -2454,8 +2692,22 @@ function spinWheel(){
 }
 function resolveWheelSegment(seg){
   const el = document.getElementById('wheelResult');
-  if(seg.type==='coins'){ addCoins(seg.value); playSound('victory'); el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">You won ${seg.value} coins! 🪙</p>`; }
-  else if(seg.type==='xp'){ addXP(seg.value); playSound('victory'); el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">You earned ${seg.value} XP! ⚡</p>`; }
+  if(seg.type==='coins'){
+    addCoins(seg.value); playSound('victory');
+    let html = `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">You won ${seg.value} coins! 🪙</p>`;
+    if(state.wheelSpins >= 3){
+      html += `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>`;
+    }
+    el.innerHTML = html;
+  }
+  else if(seg.type==='xp'){
+    addXP(seg.value); playSound('victory');
+    let html = `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">You earned ${seg.value} XP! ⚡</p>`;
+    if(state.wheelSpins >= 3){
+      html += `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>`;
+    }
+    el.innerHTML = html;
+  }
   else if(seg.type==='quiz'){
     const q = QUIZ_QUESTIONS[Math.floor(Math.random()*QUIZ_QUESTIONS.length)];
     el.innerHTML = `<div style="margin-top:18px; text-align:left;"><p style="font-weight:700; margin-bottom:12px;">${q.q}</p>
@@ -2474,11 +2726,25 @@ function resolveWheelSegment(seg){
 function wheelQuizAnswer(picked, correct){
   const ok = picked===correct;
   if(ok){ addXP(12); addCoins(6); playSound('correct'); } else playSound('wrong');
-  document.getElementById('wheelResult').innerHTML = `<p style="margin-top:14px; font-weight:700; color:${ok?'var(--success)':'var(--danger)'};">${ok?'Correct! +12 XP':'Not quite — try another spin!'}</p>`;
+  const spinsUsed = state.wheelSpins || 0;
+  if(spinsUsed >= 3){
+    const resultText = ok ? 'Correct! +12 XP' : 'Not quite!';
+    document.getElementById('wheelResult').innerHTML = `<p style="margin-top:14px; font-weight:700; color:${ok?'var(--success)':'var(--danger)'};">${resultText}</p>
+    <p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>`;
+  } else {
+    document.getElementById('wheelResult').innerHTML = `<p style="margin-top:14px; font-weight:700; color:${ok?'var(--success)':'var(--danger)'};">${ok?'Correct! +12 XP':'Not quite — try another spin!'}</p>`;
+  }
 }
 function wheelTFAnswer(correct){
   if(correct){ addXP(10); addCoins(5); playSound('correct'); } else playSound('wrong');
-  document.getElementById('wheelResult').innerHTML = `<p style="margin-top:14px; font-weight:700; color:${correct?'var(--success)':'var(--danger)'};">${correct?'Correct! +10 XP':'Not quite — spin again!'}</p>`;
+  const spinsUsed = state.wheelSpins || 0;
+  if(spinsUsed >= 3){
+    const resultText = correct ? 'Correct! +10 XP' : 'Not quite!';
+    document.getElementById('wheelResult').innerHTML = `<p style="margin-top:14px; font-weight:700; color:${correct?'var(--success)':'var(--danger)'};">${resultText}</p>
+    <p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>`;
+  } else {
+    document.getElementById('wheelResult').innerHTML = `<p style="margin-top:14px; font-weight:700; color:${correct?'var(--success)':'var(--danger)'};">${correct?'Correct! +10 XP':'Not quite — spin again!'}</p>`;
+  }
 }
 
 /* ============================= GAME: 30 SECOND CHALLENGE ============================= */
