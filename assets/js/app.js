@@ -163,3 +163,86 @@ function initSettingsPage() {
     selectVideoBg.value = stateManager.state.videoBg || 'assets/video/bg.mp4';
   }
 }
+
+// Cinematic Credits crawl handler
+function startAboutCredits() {
+  const stage = document.getElementById('aboutCreditsStage');
+  const crawl = document.getElementById('aboutCreditsCrawl');
+  const audio = document.getElementById('creditsSfx');
+  const btn = document.getElementById('playCreditsBtn');
+  
+  if (!stage || !crawl) return;
+  
+  // Pause default background tracks
+  const bgMusic = document.getElementById('bgMusic');
+  const gameMusic = document.getElementById('gameMusic');
+  if (bgMusic) bgMusic.pause();
+  if (gameMusic) gameMusic.pause();
+  
+  // cinematic fullscreen activation
+  if (stage.requestFullscreen) {
+    stage.requestFullscreen().catch(() => {});
+  } else if (stage.webkitRequestFullscreen) {
+    stage.webkitRequestFullscreen().catch(() => {});
+  } else if (stage.msRequestFullscreen) {
+    stage.msRequestFullscreen().catch(() => {});
+  }
+  
+  // start CSS scroll animation
+  crawl.classList.add('playing');
+  
+  // Play credits track
+  if (audio && stateManager.state.musicOn) {
+    audio.currentTime = 0;
+    audio.play().catch(e => console.warn('Credits audio play failed:', e));
+  }
+  
+  if (btn) {
+    btn.textContent = "Exit Credits";
+    btn.setAttribute('onclick', 'stopAboutCredits()');
+  }
+  
+  // Stop and cleanup when exiting fullscreen
+  const onFullscreenChange = () => {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      stopAboutCredits();
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
+    }
+  };
+  document.addEventListener('fullscreenchange', onFullscreenChange);
+  document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+}
+
+function stopAboutCredits() {
+  const crawl = document.getElementById('aboutCreditsCrawl');
+  const audio = document.getElementById('creditsSfx');
+  const btn = document.getElementById('playCreditsBtn');
+  
+  if (crawl) {
+    crawl.classList.remove('playing');
+  }
+  
+  if (audio) {
+    audio.pause();
+  }
+  
+  // Resume standard track
+  if (typeof startMusic === 'function' && stateManager.state.musicOn) {
+    startMusic();
+  }
+  
+  if (btn) {
+    btn.textContent = "Roll Credits ♪";
+    btn.setAttribute('onclick', 'startAboutCredits()');
+  }
+  
+  // Exit fullscreen if active
+  if (document.fullscreenElement || document.webkitFullscreenElement) {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen().catch(() => {});
+    }
+  }
+}
