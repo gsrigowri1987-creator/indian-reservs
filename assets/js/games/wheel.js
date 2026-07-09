@@ -28,7 +28,51 @@ class WheelGame extends GameEngine {
     this.spinning = false;
     this.streak = 0;
     this.inProgress = false;
+    this.checkCooldown();
     this.render();
+    
+    // Start interval to update cooldown message if spins are finished
+    this.setInterval(() => {
+      this.updateCooldownMessage();
+    }, 1000);
+  }
+
+  checkCooldown() {
+    const spinsUsed = stateManager.state.wheelSpins || 0;
+    if (spinsUsed >= this.config.maxSpins) {
+      const lastTime = stateManager.state.wheelLastSpinTime || 0;
+      const now = Date.now();
+      const cooldownMs = 10 * 60 * 60 * 1000; // 10 hours
+      if (now - lastTime >= cooldownMs) {
+        stateManager.update({ wheelSpins: 0, wheelLastSpinTime: 0 });
+      }
+    }
+  }
+
+  updateCooldownMessage() {
+    const el = document.getElementById('wheelCooldown');
+    if (!el) return;
+    
+    const spinsUsed = stateManager.state.wheelSpins || 0;
+    if (spinsUsed >= this.config.maxSpins) {
+      const lastTime = stateManager.state.wheelLastSpinTime || 0;
+      const now = Date.now();
+      const cooldownMs = 10 * 60 * 60 * 1000; // 10 hours
+      const diff = cooldownMs - (now - lastTime);
+      
+      if (diff <= 0) {
+        stateManager.update({ wheelSpins: 0, wheelLastSpinTime: 0 });
+        this.render();
+      } else {
+        const hours = Math.floor(diff / (60 * 60 * 1000));
+        const mins = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
+        const secs = Math.floor((diff % (60 * 1000)) / 1000);
+        const timeStr = `${String(hours).padStart(2, '0')}h ${String(mins).padStart(2, '0')}m ${String(secs).padStart(2, '0')}s`;
+        el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.<br><span style="font-size:0.9rem; color:var(--muted);">Next spins in: ${timeStr}</span></p>`;
+      }
+    } else {
+      el.innerHTML = '';
+    }
   }
 
   render() {
@@ -42,10 +86,14 @@ class WheelGame extends GameEngine {
       <div class="wheel-wrap">
         <canvas id="wheelCanvas" width="320" height="320"></canvas>
         <button class="btn btn-primary" id="spinBtn" onclick="spinWheel()" ${isFinished ? 'disabled' : ''}>🎡 Spin</button>
-        <div id="wheelResult">${isFinished ? '<p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>' : ''}</div>
+        <div id="wheelResult">
+          <div id="wheelWinMessage"></div>
+          <div id="wheelCooldown"></div>
+        </div>
       </div>
     `;
     this.draw(0);
+    this.updateCooldownMessage();
   }
 
   draw(rotation) {
@@ -121,11 +169,13 @@ class WheelGame extends GameEngine {
         this.spinning = false;
         
         const currentSpins = (stateManager.state.wheelSpins || 0) + 1;
-        stateManager.update({ wheelSpins: currentSpins });
+        const updates = { wheelSpins: currentSpins };
         
         if (currentSpins >= this.config.maxSpins) {
           this.inProgress = false;
+          updates.wheelLastSpinTime = Date.now();
         }
+        stateManager.update(updates);
 
         const nextSpinBtn = document.getElementById('spinBtn');
         if (nextSpinBtn) {
@@ -133,6 +183,7 @@ class WheelGame extends GameEngine {
         }
         
         this.resolveSegment(WHEEL_SEGMENTS[targetIndex]);
+        this.updateCooldownMessage();
       }
     };
     
@@ -140,12 +191,8 @@ class WheelGame extends GameEngine {
   }
 
   resolveSegment(seg) {
-    const el = document.getElementById('wheelResult');
+    const el = document.getElementById('wheelWinMessage');
     if (!el) return;
-
-    const spinsUsed = stateManager.state.wheelSpins || 0;
-    const isFinished = spinsUsed >= this.config.maxSpins;
-    const suffix = isFinished ? `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>` : '';
 
     if (seg.type === 'coins') {
       this.streak++;
@@ -153,7 +200,7 @@ class WheelGame extends GameEngine {
       const val = Math.round(seg.value * mult);
       addCoins(val);
       playSound('victory');
-      el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:var(--success);">🔥 Streak x${this.streak}! You won ${val} coins! 🪙</p>${suffix}`;
+      el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:var(--success);">🔥 Streak x${this.streak}! You won ${val} coins! 🪙</p>`;
       this.recordScore(stateManager.state.coins);
     } else if (seg.type === 'xp') {
       this.streak++;
@@ -161,7 +208,7 @@ class WheelGame extends GameEngine {
       const val = Math.round(seg.value * mult);
       addXP(val);
       playSound('victory');
-      el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:var(--success);">🔥 Streak x${this.streak}! You earned ${val} XP! ⚡</p>${suffix}`;
+      el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:var(--success);">🔥 Streak x${this.streak}! You earned ${val} XP! ⚡</p>`;
       this.recordScore(stateManager.state.coins);
     } else if (seg.type === 'quiz') {
       const q = QUIZ_QUESTIONS[Math.floor(Math.random() * QUIZ_QUESTIONS.length)];
@@ -210,13 +257,9 @@ class WheelGame extends GameEngine {
       resultText = 'Not quite! Streak reset.';
     }
     
-    const spinsUsed = stateManager.state.wheelSpins || 0;
-    const isFinished = spinsUsed >= this.config.maxSpins;
-    const suffix = isFinished ? `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>` : '';
-    
-    const el = document.getElementById('wheelResult');
+    const el = document.getElementById('wheelWinMessage');
     if (el) {
-      el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:${ok ? 'var(--success)' : 'var(--danger)'};">${resultText}</p>${suffix}`;
+      el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:${ok ? 'var(--success)' : 'var(--danger)'};">${resultText}</p>`;
     }
     this.recordScore(stateManager.state.coins);
   }
@@ -241,13 +284,9 @@ class WheelGame extends GameEngine {
       resultText = 'Not quite! Streak reset.';
     }
     
-    const spinsUsed = stateManager.state.wheelSpins || 0;
-    const isFinished = spinsUsed >= this.config.maxSpins;
-    const suffix = isFinished ? `<p style="margin-top:14px; font-weight:700; color:var(--cyan);">🎡 You have used all 3 spins.</p>` : '';
-    
-    const el = document.getElementById('wheelResult');
+    const el = document.getElementById('wheelWinMessage');
     if (el) {
-      el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:${correct ? 'var(--success)' : 'var(--danger)'};">${resultText}</p>${suffix}`;
+      el.innerHTML = `<p style="margin-top:14px; font-weight:700; color:${correct ? 'var(--success)' : 'var(--danger)'};">${resultText}</p>`;
     }
     this.recordScore(stateManager.state.coins);
   }

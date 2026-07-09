@@ -35,11 +35,15 @@ const STATIC_ASSETS = [
   './assets/audio/credits.mp3',
   './assets/audio/correct.mp3',
   './assets/audio/wrong.mp3',
+  './assets/audio/WRONG ANS.mp3',
   './assets/audio/click.mp3',
-  './assets/audio/paper.mp3',
-  // Leaflet CDN files
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
+  './assets/audio/paper-turn.mp3',
+  // Local fallback images
+  './assets/images/reservoir-fallback.png',
+  './assets/images/hemavathi.png',
+  // Local Leaflet files
+  './assets/css/leaflet.css',
+  './assets/js/leaflet.js'
 ];
 
 self.addEventListener('install', e => {

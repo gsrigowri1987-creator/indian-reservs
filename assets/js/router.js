@@ -36,6 +36,11 @@ async function fetchReservoirImages(reservoir, limit) {
   }
   if (imgCache[reservoir.id]) return imgCache[reservoir.id];
 
+  // If offline, return fallback image immediately
+  if (typeof navigator !== 'undefined' && !navigator.onLine) {
+    return ['assets/images/reservoir-fallback.png'];
+  }
+
   const controller = new AbortController();
   const id = reservoir.id + '_' + Date.now();
   imageAbortControllers.set(id, controller);
@@ -73,6 +78,11 @@ async function fetchReservoirImages(reservoir, limit) {
     } finally {
       imageAbortControllers.delete(catId);
     }
+  }
+  
+  // If we still have no URLs (e.g. offline request failed), use fallback image
+  if (urls.length === 0) {
+    urls = ['assets/images/reservoir-fallback.png'];
   }
   
   imgCache[reservoir.id] = urls;

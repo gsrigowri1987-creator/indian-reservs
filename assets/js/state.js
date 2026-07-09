@@ -7,6 +7,7 @@ const DEFAULT_STATE = {
   unlocked: [],
   mapDiscovered: [],
   wheelSpins: 0,
+  wheelLastSpinTime: 0,
   soundOn: true,
   musicOn: true,
   theme: 'dark',
