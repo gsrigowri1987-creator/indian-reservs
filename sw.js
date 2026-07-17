@@ -1,4 +1,4 @@
-const CACHE_NAME = 'reservoir-quest-v1';
+const CACHE_NAME = 'reservoir-quest-v2';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -22,7 +22,6 @@ const STATIC_ASSETS = [
   './assets/js/games/wheel.js',
   './assets/js/games/challenge30.js',
   './assets/js/games/jigsaw.js',
-  './assets/js/games/wordsearch.js',
   './assets/js/games/snake.js',
   './assets/js/games/typing.js',
   './assets/js/shop.js',

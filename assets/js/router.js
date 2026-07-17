@@ -1,7 +1,7 @@
 const PAGES = [
   'home', 'games', 'achievements', 'leaderboard', 'settings', 'about', 
   'game-quiz', 'game-guess', 'game-memory', 'game-wheel', 'game-challenge30', 
-  'game-jigsaw', 'game-wordsearch', 'game-snake', 'game-typing', 'shop'
+  'game-jigsaw', 'game-snake', 'game-typing', 'shop'
 ];
 
 const NAV_ITEMS = [
@@ -94,6 +94,7 @@ let currentPageId = 'home';
 
 function navigate(pageId, opts) {
   opts = opts || {};
+  if (!PAGES.includes(pageId)) pageId = 'home';
   
   // Confirmation check before leaving an active game in progress
   if (window.activeGameInstance && window.activeGameInstance.inProgress) {
@@ -124,10 +125,6 @@ function navigate(pageId, opts) {
   if (typeof c30State !== 'undefined' && c30State.interval) {
     clearInterval(c30State.interval);
     c30State.interval = null;
-  }
-  if (typeof wsState !== 'undefined' && wsState.timerInterval) {
-    clearInterval(wsState.timerInterval);
-    wsState.timerInterval = null;
   }
 
   // Handle Home particle canvas visibility
@@ -208,9 +205,6 @@ function navigate(pageId, opts) {
   }
   if (pageId === 'game-jigsaw' && typeof startJigsaw === 'function') {
     startJigsaw();
-  }
-  if (pageId === 'game-wordsearch' && typeof startWordSearch === 'function') {
-    startWordSearch();
   }
   if (pageId === 'game-snake' && typeof startSnake === 'function') {
     startSnake();

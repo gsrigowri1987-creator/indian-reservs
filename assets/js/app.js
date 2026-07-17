@@ -94,6 +94,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initLoader();
   initHeroCanvas();
   initCursor();
+  initWaterSplash();
   initMusic();
   
   // Router hash handler

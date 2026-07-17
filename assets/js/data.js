@@ -55,7 +55,6 @@ const GAMES = [
   {id:'jigsaw', name:'Jigsaw Puzzle', icon:'🧩', cat:'puzzle', diff:'Medium', time:'4 min', desc:'Rebuild a real reservoir photo, tile by tile.', route:'game-jigsaw'},
   {id:'wheel', name:'Spin the Wheel', icon:'🎡', cat:'challenge', diff:'Easy', time:'2 min', desc:'Spin for a random trivia question or bonus coins.', route:'game-wheel'},
   {id:'challenge30', name:'30 Second Challenge', icon:'⚡', cat:'challenge', diff:'Hard', time:'30 sec', desc:'Answer as many rapid-fire questions as you can.', route:'game-challenge30'},
-  {id:'wordsearch', name:'Word Search', icon:'🔤', cat:'puzzle', diff:'Medium', time:'4 min', desc:'Find reservoir names hidden inside a letter grid.', route:'game-wordsearch'},
   {id:'snake', name:'Reservoir Snake', icon:'🐍', cat:'challenge', diff:'Hard', time:'30 sec', desc:'Eat water drops to unlock historical reservoir facts.', route:'game-snake'},
   {id:'typing', name:'Reservoir Typist', icon:'⌨️', cat:'challenge', diff:'Hard', time:'30 sec', desc:'Type reservoir names under pressure as fast as you can.', route:'game-typing'}
 ];

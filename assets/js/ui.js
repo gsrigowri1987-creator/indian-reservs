@@ -88,12 +88,41 @@ function initCursor() {
 
   document.addEventListener('mouseover', e => {
     if (ring) {
-      const isInteractive = e.target.closest('button, a, .game-card, .option-btn, .mem-card, .jigsaw-tile, .reservoir-photo, .bingo-cell, .ws-cell');
+      const isInteractive = e.target.closest('button, a, .game-card, .option-btn, .mem-card, .jigsaw-tile, .reservoir-photo, .bingo-cell');
       ring.classList.toggle('hover', !!isInteractive);
     }
   });
 
   frame();
+}
+
+// Event delegation also covers buttons added while games and panels are rendered.
+function initWaterSplash() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button || button.disabled) return;
+
+    const rect = button.getBoundingClientRect();
+    const usedKeyboard = event.detail === 0;
+    const x = usedKeyboard ? rect.left + rect.width / 2 : event.clientX;
+    const y = usedKeyboard ? rect.top + rect.height / 2 : event.clientY;
+    const splash = document.createElement('span');
+    splash.className = 'water-splash';
+    splash.style.left = x + 'px';
+    splash.style.top = y + 'px';
+
+    const drops = [
+      ['-68deg', '24px'], ['-25deg', '31px'], ['18deg', '27px'],
+      ['54deg', '34px'], ['102deg', '25px'], ['146deg', '30px']
+    ];
+    splash.innerHTML = '<span class="water-splash__ring"></span><span class="water-splash__ring water-splash__ring--inner"></span>' +
+      drops.map(([angle, distance]) => `<span class="water-splash__drop" style="--angle:${angle}; --distance:${distance};"></span>`).join('');
+
+    document.body.appendChild(splash);
+    window.setTimeout(() => splash.remove(), 800);
+  });
 }
 
 // Toast notification stacking
@@ -461,7 +490,6 @@ function renderLeaderboard() {
     ['🧩', 'Jigsaw Puzzle', 'jigsaw'],
     ['🎡', 'Spin the Wheel', 'wheel'],
     ['⚡', '30 Second Challenge', 'challenge30'],
-    ['🔤', 'Word Search', 'wordsearch'],
     ['🐍', 'Reservoir Snake', 'snake'],
     ['⌨️', 'Reservoir Typist', 'typing']
   ];

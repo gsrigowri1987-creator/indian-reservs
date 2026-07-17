@@ -21,6 +21,7 @@
   --shadow:0 20px 60px -20px rgba(0,0,0,0.6);
   --font-display:'Space Grotesk', sans-serif;
   --font-body:'Inter', sans-serif;
+  --font-script:'Dancing Script', cursive;
 }
 [data-theme="light"]{
   --bg:#F4F7FB;
@@ -141,7 +142,7 @@ img{max-width:100%; display:block;}
   border-bottom:1px solid var(--line);
 }
 .topbar-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 20px; max-width:1180px; margin:0 auto;}
-.brand{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:1.05rem;}
+.brand{display:flex; align-items:center; gap:10px; font-family:var(--font-script); font-weight:700; font-size:1.45rem;}
 .brand .wave{font-size:1.2rem;}
 .nav-links{display:none; gap:4px; align-items:center;}
 .nav-links button{
@@ -178,7 +179,7 @@ img{max-width:100%; display:block;}
   display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px;
   background:var(--surface2); border:1px solid var(--line); font-size:.8rem; font-weight:600; color:var(--cyan); margin-bottom:22px;
 }
-.hero h1{font-size:clamp(2.4rem,7vw,4.2rem); font-weight:700; line-height:1.05; background:linear-gradient(135deg,#fff,var(--claude2) 48%,var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.hero h1{font-family:var(--font-script); font-size:clamp(3.1rem,9vw,5.4rem); font-weight:700; line-height:1; letter-spacing:0; background:linear-gradient(135deg,#fff,var(--claude2) 48%,var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent;}
 [data-theme="light"] .hero h1{background:linear-gradient(135deg,#0F172A,var(--claude) 58%,var(--cyan)); -webkit-background-clip:text; background-clip:text;}
 .hero p.tagline{margin-top:16px; font-size:clamp(1rem,2.4vw,1.25rem); color:var(--muted); font-weight:500; letter-spacing:.02em;}
 .hero-ctas{display:flex; gap:12px; justify-content:center; margin-top:32px; flex-wrap:wrap;}
@@ -211,6 +212,52 @@ img{max-width:100%; display:block;}
 .btn::after,.option-btn::after,.music-toggle::after{content:""; position:absolute; inset:auto; left:var(--rx,50%); top:var(--ry,50%); width:10px; height:10px; border-radius:999px; background:rgba(255,255,255,.28); transform:translate(-50%,-50%) scale(0); opacity:0; pointer-events:none;}
 .btn.ripple::after,.option-btn.ripple::after,.music-toggle.ripple::after{animation:softRipple .52s ease-out;}
 @keyframes softRipple{0%{opacity:.28; transform:translate(-50%,-50%) scale(0);} 100%{opacity:0; transform:translate(-50%,-50%) scale(18);}}
+
+/* Water splash shown whenever a button is activated. */
+.water-splash{
+  position:fixed;
+  z-index:100000;
+  width:1px;
+  height:1px;
+  pointer-events:none;
+}
+.water-splash__ring,.water-splash__drop{
+  position:absolute;
+  left:0;
+  top:0;
+  border-radius:50%;
+  pointer-events:none;
+}
+.water-splash__ring{
+  width:14px;
+  height:14px;
+  border:2px solid rgba(103,232,249,.9);
+  box-shadow:0 0 12px rgba(34,211,238,.65), inset 0 0 8px rgba(255,255,255,.5);
+  transform:translate(-50%,-50%) scale(.2);
+  animation:waterRing .72s cubic-bezier(.16,.84,.44,1) forwards;
+}
+.water-splash__ring--inner{
+  border-width:1px;
+  border-color:rgba(186,230,253,.88);
+  animation-delay:.06s;
+}
+.water-splash__drop{
+  width:8px;
+  height:8px;
+  background:radial-gradient(circle at 35% 28%, #fff 0 14%, #a5f3fc 32%, #22d3ee 70%, #0891b2 100%);
+  box-shadow:0 0 10px rgba(34,211,238,.85);
+  transform:translate(-50%,-50%);
+  animation:waterDrop .62s cubic-bezier(.18,.72,.34,1) forwards;
+}
+@keyframes waterRing{
+  0%{opacity:.95; transform:translate(-50%,-50%) scale(.2);}
+  100%{opacity:0; transform:translate(-50%,-50%) scale(6.6);}
+}
+@keyframes waterDrop{
+  0%{opacity:1; transform:translate(-50%,-50%) rotate(var(--angle)) translateY(0) scale(.7);}
+  72%{opacity:.9;}
+  100%{opacity:0; transform:translate(-50%,-50%) rotate(var(--angle)) translateY(var(--distance)) scale(.15);}
+}
 .btn-primary{background:linear-gradient(135deg,var(--claude2),var(--claude)); color:#21110a; box-shadow:0 8px 20px rgba(217,119,87,.22),0 0 0 1px rgba(255,255,255,.04);}
 .btn-primary:hover{filter:brightness(1.03); transform:translateY(-2px) scale(1.02); box-shadow:0 18px 40px rgba(217,119,87,.28),0 0 0 1px rgba(242,184,138,.18);}
 .btn-primary:active{transform:translateY(0) scale(.97); box-shadow:0 5px 12px rgba(217,119,87,.18);}
@@ -227,7 +274,7 @@ img{max-width:100%; display:block;}
 /* ---------- sections ---------- */
 .section{padding:52px 0;}
 .section-head{display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:24px; gap:12px; flex-wrap:wrap;}
-.section-head h2{font-size:clamp(1.4rem,3vw,1.9rem); font-weight:700;}
+.section-head h2{font-family:var(--font-script); font-size:clamp(2rem,4.5vw,2.85rem); font-weight:700; line-height:1; letter-spacing:0;}
 .section-head p{color:var(--muted); font-size:.92rem; margin-top:6px;}
 .contour-divider{height:64px; width:100%; opacity:.5;}
 
@@ -1260,66 +1307,6 @@ footer .brand{justify-content:center; margin-bottom:10px;}
 }
 
 /* ---------- New Game Styles ---------- */
-
-/* Word Search styling */
-.ws-grid-container {
-  display: grid;
-  gap: 6px;
-  margin: 20px auto;
-  width: min(100%, 420px);
-  user-select: none;
-  touch-action: none;
-}
-.ws-cell {
-  aspect-ratio: 1;
-  background: var(--surface2);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
-}
-.ws-cell:hover {
-  background: var(--surface3);
-}
-.ws-cell.selected {
-  background: var(--claude);
-  color: #fff;
-  transform: scale(1.05);
-}
-.ws-cell.found {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: #fff;
-  border-color: #047857;
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
-}
-.ws-word-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
-  justify-content: center;
-}
-.ws-word-item {
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: var(--surface2);
-  border: 1px solid var(--line);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--muted);
-  transition: all 0.3s ease;
-}
-.ws-word-item.found {
-  background: rgba(52, 211, 153, 0.15);
-  border-color: var(--success);
-  color: var(--success);
-  text-decoration: line-through;
-}
 
 /* Bingo styling */
 .bingo-grid {
