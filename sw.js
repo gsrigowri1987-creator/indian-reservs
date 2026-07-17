@@ -1,4 +1,4 @@
-const CACHE_NAME = 'reservoir-quest-v3';
+const CACHE_NAME = 'reservoir-quest-v4';
 const STATIC_ASSETS = [
   './',
   './index.html',

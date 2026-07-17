@@ -51,12 +51,20 @@ function applyVideoBg(videoPath) {
     if (src === 'assets/video/video 3.mp4') src = 'assets/video/video3.mp4';
     
     const safeSrc = encodeURI(src);
-    while (videoEl.firstChild) {
-      videoEl.removeChild(videoEl.firstChild);
+    // The default source is already in the HTML so the browser can begin
+    // fetching it immediately. Do not reset it at startup, which restarts
+    // the download on slower connections.
+    if (videoEl.getAttribute('src') !== safeSrc) {
+      videoEl.src = safeSrc;
+      videoEl.load();
     }
-    videoEl.src = safeSrc;
-    videoEl.load();
-    videoEl.play().catch(err => console.warn('Video background play failed:', err));
+
+    const playVideo = () => videoEl.play().catch(err => console.warn('Video background play failed:', err));
+    if (videoEl.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      playVideo();
+    } else {
+      videoEl.addEventListener('canplay', playVideo, { once: true });
+    }
   }
 }
 
