@@ -1,8 +1,9 @@
-const CACHE_NAME = 'reservoir-quest-v2';
+const CACHE_NAME = 'reservoir-quest-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './assets/css/styles.css',
+  './assets/fonts/chunky-varsity.ttf',
   './assets/js/data.js',
   './assets/js/sanitize.js',
   './assets/js/state.js',
