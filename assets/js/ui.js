@@ -268,6 +268,7 @@ const NAV_ITEMS_ICONS = {
   shop: '🛒',
   achievements: '🏆',
   leaderboard: '📊',
+  chat: '💬',
   settings: '⚙️',
   about: 'ℹ️'
 };
@@ -357,6 +358,9 @@ async function renderPhotoWall() {
         <div class="reservoir-photo-card">
           ${fallbackTile(r)}
           <div class="slide-info">
+            <button class="download-photo-btn" onclick="downloadReservoirImage(event, '${r.id}')" aria-label="Download photo of ${sanitizeHTML(r.name)}">
+              ↓ Download photo
+            </button>
             <h3>${sanitizeHTML(r.name)}</h3>
             <p>📍 ${sanitizeHTML(r.state)} · ${sanitizeHTML(r.river)} River</p>
           </div>
@@ -437,6 +441,49 @@ function updateCarouselPosition() {
   dots.forEach((dot, idx) => {
     dot.classList.toggle('active', idx === carouselActiveIndex);
   });
+}
+
+async function downloadReservoirImage(event, id) {
+  if (event) event.stopPropagation();
+
+  const reservoir = RESERVOIRS.find(r => r.id === id);
+  if (!reservoir) return;
+
+  const button = event ? event.currentTarget : null;
+  const originalLabel = button ? button.textContent : '';
+  if (button) {
+    button.disabled = true;
+    button.textContent = 'Preparing download…';
+  }
+
+  try {
+    const urls = await fetchReservoirImages(reservoir, 1);
+    const imageUrl = urls && urls[0];
+    if (!imageUrl) throw new Error('No image is available.');
+
+    const response = await fetch(imageUrl);
+    if (!response.ok) throw new Error('Image download failed.');
+
+    const blob = await response.blob();
+    const extension = blob.type === 'image/png' ? 'png' : 'jpg';
+    const downloadUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = reservoir.id + '-reservoir.' + extension;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(downloadUrl);
+    toast('Downloaded ' + reservoir.name + ' photo.');
+  } catch (error) {
+    console.warn('Reservoir photo download failed:', error);
+    toast('Could not download this photo. Please try again.');
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = originalLabel;
+    }
+  }
 }
 
 // Lightbox Modal functions

@@ -1,5 +1,5 @@
 const PAGES = [
-  'home', 'games', 'achievements', 'leaderboard', 'settings', 'about', 
+  'home', 'games', 'achievements', 'leaderboard', 'chat', 'settings', 'about', 
   'game-quiz', 'game-guess', 'game-memory', 'game-wheel', 'game-challenge30', 
   'game-jigsaw', 'game-snake', 'game-typing', 'shop'
 ];
@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   ['shop', 'Shop'],
   ['achievements', 'Achievements'],
   ['leaderboard', 'Leaderboard'],
+  ['chat', 'Chat'],
   ['settings', 'Settings'],
   ['about', 'About']
 ];
@@ -179,6 +180,9 @@ function navigate(pageId, opts) {
   }
   if (pageId === 'leaderboard' && typeof renderLeaderboard === 'function') {
     renderLeaderboard();
+  }
+  if (pageId === 'chat' && typeof initTeamChat === 'function') {
+    initTeamChat();
   }
   if (pageId === 'shop' && typeof renderShop === 'function') {
     renderShop();

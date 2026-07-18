@@ -173,6 +173,32 @@
       </div>
     </section>
 
+    <!-- TEAM CHAT -->
+    <section class="page" id="page-chat">
+      <div class="section chat-page" style="padding-top:28px;">
+        <div class="section-head">
+          <div>
+            <h2>Team Chat</h2>
+            <p>Share messages with everyone exploring Reservoir Quest.</p>
+          </div>
+          <div class="chat-live-status" id="chatStatus" role="status">Connecting…</div>
+        </div>
+        <div class="chat-shell">
+          <div class="chat-messages" id="chatMessages" aria-live="polite">
+            <div class="chat-empty">Open Chat to start the conversation.</div>
+          </div>
+          <form class="chat-composer" id="chatForm" onsubmit="sendChatMessage(event)">
+            <label class="sr-only" for="chatName">Your name</label>
+            <input id="chatName" class="chat-name-input" type="text" maxlength="32" placeholder="Your name" autocomplete="nickname">
+            <label class="sr-only" for="chatMessage">Message</label>
+            <textarea id="chatMessage" maxlength="500" rows="1" placeholder="Write a message…" required></textarea>
+            <button class="chat-send-btn" id="chatSendBtn" type="submit">Send <span aria-hidden="true">↑</span></button>
+          </form>
+          <p class="chat-note">Messages are visible to everyone using this website.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- SETTINGS -->
     <section class="page" id="page-settings">
       <div class="section" style="padding-top:28px;">
@@ -591,6 +617,8 @@
 <script src="assets/js/sync-manager.js"></script>
 <script src="assets/js/privacy.js"></script>
 <script src="assets/js/router.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="assets/js/chat.js"></script>
 <script src="assets/js/map.js"></script>
 <script src="assets/js/games/game-engine.js"></script>
 <script src="assets/js/games/quiz.js"></script>

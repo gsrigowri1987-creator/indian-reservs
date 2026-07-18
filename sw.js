@@ -1,4 +1,4 @@
-const CACHE_NAME = 'reservoir-quest-v4';
+const CACHE_NAME = 'reservoir-quest-v6';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -15,6 +15,7 @@ const STATIC_ASSETS = [
   './assets/js/sync-manager.js',
   './assets/js/privacy.js',
   './assets/js/router.js',
+  './assets/js/chat.js',
   './assets/js/map.js',
   './assets/js/games/game-engine.js',
   './assets/js/games/quiz.js',
